@@ -1,6 +1,6 @@
 from .getDolar import getDolar
 import schedule
-import threading
+from threading import Thread
 import time
 #Clase para almacenar valor del dolar.
 class Dolar:
@@ -14,18 +14,18 @@ class Dolar:
     def __init__(self):
         if not hasattr(self,'value'):
             self.value = getDolar()
+            self.dolar_schedule()
+
+    def dolar_schedule(self):
+        schedule.every(1).days.do(self.update_value)
+        # Inicia un hilo para ejecutar el schedule en segundo plano
+        thread = Thread(target=self.run_schedule, daemon=True)
+        thread.start()
 
     def update_value(self):
         self.value = getDolar()
-
-    def schedule_daily_update(self):
-        schedule.every().day.at("04:00").do(self.update_value)
-
-        thread = threading.Thread(target=self.run_schedule)
-        thread.daemon = True
-        thread.start()
+        print(f"Valor del dólar actualizado: {self.value}")
 
     def run_schedule(self):
         while True:
             schedule.run_pending()
-            time.sleep(1)

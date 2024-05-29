@@ -6,7 +6,7 @@ from app.dolar.dolar import Dolar
 def get_all_tools():
     cursor = connection.cursor()
     try: 
-        cursor.execute("SELECT id_herramienta, nombre, valor, cantidad, cantidades_vendidas, id_categoria,id_marca FROM HERRAMIENTAS")
+        cursor.execute("SELECT id_herramienta, nombre, valor, imagen, cantidad, id_categoria,id_marca FROM HERRAMIENTAS")
         rows = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
         data = [dict(zip(columns, row)) for row in rows]
@@ -25,7 +25,7 @@ def get_all_tools():
 def get_tool(id):
     cursor = connection.cursor()
     try:
-        cursor.execute(f"SELECT id_herramienta, nombre, valor FROM herramientas where id_herramienta = {id}")
+        cursor.execute(f"SELECT id_herramienta, nombre, valor, imagen FROM herramientas where id_herramienta = {id}")
         rows = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
         data = [dict(zip(columns, row)) for row in rows]
