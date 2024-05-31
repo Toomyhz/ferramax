@@ -1,5 +1,5 @@
 from flask import request
-from .controllers import  get_all_tools, get_tool, get_all_categories,get_all_marcas  #create_tool
+from .controllers import  get_all_tools, get_tool, get_all_categories,get_all_marcas 
 from app import app
 
 @app.route('/tools/', methods=['GET'])
