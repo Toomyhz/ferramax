@@ -1,44 +1,64 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 </script>
+<script>
+import axios from 'axios';
+
+export default {
+  data(){
+    return{
+      categorias:[]
+    };
+  },
+  mounted(){
+    this.fetchData();
+  },
+  methods:{
+    async fetchData(){
+      try{
+        const response = await
+        axios.get('http://127.0.0.1:5000/categories/');
+        this.categorias = response.data['CATEGORIAS'];
+      } catch(error){
+        console.error('Error fetching data: ', error)
+      }
+    },
+  }
+}
+</script>
 <template>
     <header>
   <div class="start">
     <div class="marca">
-      <a href="/"><span class="first">FERRA</span><span class="second">MAX</span></a>
+      <RouterLink to="/"><span class="first">FERRA</span><span class="second">MAX</span></RouterLink>
     </div>
     <div id="buscador" class="m-auto">
       <form action="" method="GET">
         <span><i class="bi bi-search"></i></span><input type="search" name="text" id="search">
       </form>
     </div>
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
-    <RouterLink to="/cart">Carrito</RouterLink>
-    <RouterLink to="/store">Tienda</RouterLink>
   </div>
   <nav>
     <div class="div-categoria">
       <button id="btn-categorias" onclick=""><span><i class="bi bi-list"></i>Categorias</span><span><i class="bi bi-arrow-bar-down"></i></span></button>
       <div id="dropdown-content" class="dropdown-content">
-        <a href="" >Categoria-1</a>
-        <a href="" >Categoria-2</a>
+        <RouterLink :to="`/store/?categoria=${categoria.CATEGORIA}`"  v-for="categoria in categorias" :key = "categoria.ID_CATEGORIA" >{{ categoria.CATEGORIA }}</RouterLink>
       </div>
     </div>
     <ul class="navbar-1">
-      <li><a href="/store">Tienda</a></li>
-      <li><a href="">Iniciar sesión</a></li>
-      <li><a href="">Registrarse</a></li>
+      <li><RouterLink to="/store">Tienda</RouterLink></li>
+      <li><RouterLink to="/">Iniciar sesión</RouterLink></li>
+      <li><RouterLink to="/">Registrarse</RouterLink></li>
     </ul>
     <div class="tools">
       <li>
-        <a href="/cart"><i class="bi bi-cart3"></i></a>
+        <RouterLink to="/cart"><i class="bi bi-cart3"></i></RouterLink>
       </li>
     </div>
   </nav>
 </header>
 </template>
-<style>
+<style scoped>
     @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 header{
     margin: 0;
