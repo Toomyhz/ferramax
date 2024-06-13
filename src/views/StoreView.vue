@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 v-if="text">Resultados de {{ text }}</h1>
+        <h1 v-if="text">Resultados de: {{ text }}</h1>
         <h1 v-else-if="categoria">Productos en la Categoría: {{ categoria }}</h1>
         <h1 v-else>Tienda</h1>
       <article v-for="tool in productosFiltrados" :key="tool.ID_HERRAMIENTA" >

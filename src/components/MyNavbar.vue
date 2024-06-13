@@ -5,26 +5,39 @@ import { RouterLink } from 'vue-router';
 import axios from 'axios';
 
 export default {
-  data(){
-    return{
-      categorias:[],
-      text:""
-    };
-  },
-  mounted(){
-    this.fetchData();
-    this.text=this.$route.query.text
-  },
-  methods:{
-    async fetchData(){
-      try{
-        const response = await
-        axios.get('http://127.0.0.1:5000/categories/');
-        this.categorias = response.data['CATEGORIAS'];
-      } catch(error){
-        console.error('Error fetching data: ', error)
-      }
+    data(){
+        return{
+        categorias:[],
+        text:""
+        };
     },
+    watch: {
+        '$route.query': {
+            handler() {
+                this.text = this.$route.query.text;
+            },
+            immediate: true
+        }
+    },
+    created(){
+        this.fetchData();
+        this.text = this.$route.query.text
+    },
+    methods:{
+    async fetchData(){
+        try{
+            const response = await
+            axios.get('http://127.0.0.1:5000/categories/');
+            this.categorias = response.data['CATEGORIAS'];
+        }catch(error){
+            console.error('Error fetching data: ', error)
+        }
+    },
+    navegar(){
+        if (this.text.trim() !== '') {
+        this.$router.push({ name: 'store', query: { text: this.text } });
+      }
+    }
   }
 }
 </script>
@@ -35,9 +48,9 @@ export default {
       <RouterLink to="/"><span class="first">FERRA</span><span class="second">MAX</span></RouterLink>
     </div>
     <div id="buscador" class="m-auto">
-      <form action="/store" method="GET">
-        <span><i class="bi bi-search"></i></span><input type="search" name="text" id="search" :value="`${text}`">
-      </form>
+        <div>
+            <span><i class="bi bi-search"></i></span><input type="search" name="text" id="search" @keyup.enter="navegar" v-model="text" placeholder="Ingrese el producto a buscar">
+        </div>
     </div>
   </div>
   <nav>
@@ -222,7 +235,7 @@ nav{
     }
 }
 #buscador{
-    form{
+    div{
         input{
             width: 400px;
             border: 1px solid black;
