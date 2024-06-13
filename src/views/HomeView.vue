@@ -34,11 +34,11 @@ export default {
       <div class="second">
         <div class="suscribe">
           <h3>Suscribete para recibir todas nuestras ofertas</h3>
-          <button>Suscribir</button>
+            <RouterLink :to="{ name : 'suscribir' }" class="btn btn-warning">suscribir</RouterLink>
         </div>
         <div>
           <h3>Inicia sesión para recibir un descuento del 15%</h3>
-          <button>Iniciar sesión</button>
+          <RouterLink :to="{ name : 'login' }" class="btn btn-warning">inicio</RouterLink>
         </div>
       </div>
     </section>
@@ -89,10 +89,6 @@ export default {
           width:80%;
           text-align: center;
         };
-        button{
-          background-color: #ffd333;
-          margin: auto;
-        }
       }
   }
 }
@@ -118,11 +114,12 @@ export default {
   }
 }
 .brands{
+  margin-top: 40px;
   div{
     display:flex;
     article{
       img{
-        width: 70%
+        width: 80%
       }
     }
   }
