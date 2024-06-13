@@ -4,7 +4,7 @@
     <h1 v-else-if="categoria">Productos en la Categoría: {{ categoria }}</h1>
     <h1 v-else>Tienda</h1>
     <hr />
-    <ProductList :productos="productosFiltrados"/>
+    <ProductList :productos="productosFiltrados" :moneda="moneda"/>
     <hr />
   </div>
 </template>
@@ -16,6 +16,11 @@ import ProductList from "@/components/ProductList.vue";
 export default {
   components:{
     ProductList
+  },
+  props: {
+    moneda:{
+      type:String
+    }
   },
   data() {
     return {

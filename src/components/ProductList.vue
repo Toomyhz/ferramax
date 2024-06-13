@@ -8,7 +8,8 @@
           class="product-img"
         />
         <p>{{ producto.CATEGORIA }}</p>
-        <p> CLP ${{ producto.VALOR }} - USD $ {{ producto.VALOR_EN_DOLARES }}</p>
+        <p v-if="moneda == 'USD'">USD $ {{ producto.VALOR_EN_DOLARES }}</p>
+        <p v-if="moneda == 'CLP'">CLP ${{ producto.VALOR }}</p>
     </div>
   </div>
 </template>
@@ -21,6 +22,9 @@ export default {
       type: Array,
       required: true,
     },
+    moneda:{
+      type:String
+    }
   },
 };
 </script>

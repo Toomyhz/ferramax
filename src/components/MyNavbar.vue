@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+
 </script>
 <script>
 import axios from 'axios';
@@ -8,8 +9,13 @@ export default {
     data(){
         return{
         categorias:[],
-        text:""
+        text:"",
         };
+    },
+    props:{
+        cambioActual:{
+            type: String,
+        }
     },
     watch: {
         '$route.query': {
@@ -33,8 +39,7 @@ export default {
     methods:{
     async fetchData(){
         try{
-            const response = await
-            axios.get('http://127.0.0.1:5000/categories/');
+            const response = await axios.get('http://127.0.0.1:5000/categories/');
             this.categorias = response.data['CATEGORIAS'];
         }catch(error){
             console.error('Error fetching data: ', error)
@@ -46,6 +51,11 @@ export default {
         }else{
             this.$router.push({ name: 'store'});
         }
+    },
+    cambiarCambio(){
+        if(this.cambioActual == "USD"){
+            this.$emit('cambiarMoneda',"CLP")
+        }else(this.$emit('cambiarMoneda',"USD"))
     }
   }
 }
@@ -60,6 +70,9 @@ export default {
         <div>
             <span><i class="bi bi-search"></i></span><input type="search" name="text" id="search" @keyup.enter="navegar" v-model="text" placeholder="Ingrese el producto a buscar">
         </div>
+    </div>
+    <div>
+        <button @click="cambiarCambio">Tipo de cambio: {{ cambioActual }}</button>
     </div>
   </div>
   <nav>
