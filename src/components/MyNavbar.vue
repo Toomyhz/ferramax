@@ -23,6 +23,13 @@ export default {
         this.fetchData();
         this.text = this.$route.query.text
     },
+    computed:{
+        isActive(){
+            return routeName => {
+                return this.$route.name === routeName
+            }
+        }
+    },
     methods:{
     async fetchData(){
         try{
@@ -35,8 +42,10 @@ export default {
     },
     navegar(){
         if (this.text.trim() !== '') {
-        this.$router.push({ name: 'store', query: { text: this.text } });
-      }
+            this.$router.push({ name: 'store', query: { text: this.text } });
+        }else{
+            this.$router.push({ name: 'store'});
+        }
     }
   }
 }
@@ -45,7 +54,7 @@ export default {
     <header>
   <div class="start">
     <div class="marca">
-      <RouterLink to="/"><span class="first">FERRA</span><span class="second">MAX</span></RouterLink>
+      <RouterLink :to="{name:'home'}"><span class="first">FERRA</span><span class="second">MAX</span></RouterLink>
     </div>
     <div id="buscador" class="m-auto">
         <div>
@@ -57,17 +66,17 @@ export default {
     <div class="div-categoria">
       <button id="btn-categorias" onclick=""><span><i class="bi bi-list"></i>Categorias</span><span><i class="bi bi-arrow-bar-down"></i></span></button>
       <div id="dropdown-content" class="dropdown-content">
-        <RouterLink :to="`/store/?categoria=${categoria.CATEGORIA}`"  v-for="categoria in categorias" :key = "categoria.ID_CATEGORIA" >{{ categoria.CATEGORIA }}</RouterLink>
+        <RouterLink :to="{ name : 'store', query: { categoria: categoria.CATEGORIA } }"  v-for="categoria in categorias" :key = "categoria.ID_CATEGORIA" >{{ categoria.CATEGORIA }}</RouterLink>
       </div>
     </div>
     <ul class="navbar-1">
-      <li><RouterLink to="/store">Tienda</RouterLink></li>
-      <li><RouterLink to="/login">Iniciar sesión</RouterLink></li>
-      <li><RouterLink to="/register">Registrarse</RouterLink></li>
+      <li><RouterLink :to="{ name : 'store' }" :class="{ ' active-link': isActive('store')}" >Tienda</RouterLink></li>
+      <li><RouterLink :to="{ name : 'login' }" :class="{ ' active-link': isActive('login')}">Iniciar sesión</RouterLink></li>
+      <li><RouterLink :to="{ name : 'register'}" :class="{ ' active-link': isActive('register')}" >Registrarse</RouterLink></li>
     </ul>
     <div class="tools">
       <li>
-        <RouterLink to="/cart"><i class="bi bi-cart3"></i></RouterLink>
+        <RouterLink :to="{ name : 'cart' }" :class="{'active-link' : isActive('cart')}" ><i class="bi bi-cart3"></i></RouterLink>
       </li>
     </div>
   </nav>
@@ -248,12 +257,11 @@ nav{
     border: 3px solid #ffd333;
     width: 450px;
 }
-.username{
-    margin: 0;
-    width: 100%;
-    text-align: center;
-    align-content: center;
-    color: #ffd333;
-    transition: 0.2s;
+.active-link{
+    color: #ffd333 !important;
+    border-top: #ffd333 5px solid !important;
+    border-bottom: #ffd333 5px solid !important;
+    box-sizing: border-box !important;
+    font-size: 1.2rem;
 }
 </style>
