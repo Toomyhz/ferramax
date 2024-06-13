@@ -7,11 +7,13 @@ import axios from 'axios';
 export default {
   data(){
     return{
-      categorias:[]
+      categorias:[],
+      text:""
     };
   },
   mounted(){
     this.fetchData();
+    this.text=this.$route.query.text
   },
   methods:{
     async fetchData(){
@@ -34,7 +36,7 @@ export default {
     </div>
     <div id="buscador" class="m-auto">
       <form action="/store" method="GET">
-        <span><i class="bi bi-search"></i></span><input type="search" name="text" id="search">
+        <span><i class="bi bi-search"></i></span><input type="search" name="text" id="search" :value="`${text}`">
       </form>
     </div>
   </div>
