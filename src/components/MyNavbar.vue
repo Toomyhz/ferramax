@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router';
 </script>
 <script>
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 export default {
     data(){
         return{
@@ -55,6 +55,9 @@ export default {
     cambiarCambio(){
         if(this.cambioActual == "USD"){
             this.$emit('cambiarMoneda',"CLP")
+            Swal.fire({
+                title:"Moneda cambiada!!"
+            });
         }else(this.$emit('cambiarMoneda',"USD"))
     }
   }
