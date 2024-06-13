@@ -33,7 +33,7 @@ export default {
       <RouterLink to="/"><span class="first">FERRA</span><span class="second">MAX</span></RouterLink>
     </div>
     <div id="buscador" class="m-auto">
-      <form action="" method="GET">
+      <form action="/store" method="GET">
         <span><i class="bi bi-search"></i></span><input type="search" name="text" id="search">
       </form>
     </div>
@@ -47,8 +47,8 @@ export default {
     </div>
     <ul class="navbar-1">
       <li><RouterLink to="/store">Tienda</RouterLink></li>
-      <li><RouterLink to="/">Iniciar sesión</RouterLink></li>
-      <li><RouterLink to="/">Registrarse</RouterLink></li>
+      <li><RouterLink to="/login">Iniciar sesión</RouterLink></li>
+      <li><RouterLink to="/register">Registrarse</RouterLink></li>
     </ul>
     <div class="tools">
       <li>
@@ -59,7 +59,7 @@ export default {
 </header>
 </template>
 <style scoped>
-    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+    
 header{
     margin: 0;
     padding: 0;
@@ -178,11 +178,13 @@ nav{
             transition: 0.2s;
             text-align: center;
             align-content: center;
+            border-bottom: none;
         };
         a:hover{
             color: #ffd333;
             border-bottom: #ffd333 5px solid;
-            box-sizing: border-box
+            box-sizing: border-box;
+            font-size: 1.2rem;
         }
 
     };    
@@ -206,12 +208,13 @@ nav{
         justify-content: center;
         align-items: center;
         transition: 0.2s;
+        font-size: 1.5rem;
     };
     a:hover{
         border-bottom: 5px #ffd333 solid;
         box-sizing: border-box;
         i{
-            transform: scale(1.5);
+            font-size:2rem;
 
         }
     }

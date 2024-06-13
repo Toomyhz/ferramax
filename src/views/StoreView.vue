@@ -1,12 +1,13 @@
 <template>
     <div>
         <h1 v-if="categoria">Productos en la Categoría: {{ categoria }}</h1>
+        <h1 v-else>Tienda</h1>
       <article v-for="tool in productosFiltrados" :key="tool.ID_HERRAMIENTA" >
         {{ tool.NOMBRE }}
         {{ tool.CATEGORIA }}
       </article>
     </div>
-  </template>
+</template>
   <script>
     import axios from 'axios';
   
@@ -15,7 +16,8 @@
         data(){
             return{
                 tools:[],
-                categoria: ""
+                categoria: "",
+                text:""
             };
         },
         computed:{
@@ -26,7 +28,6 @@
                 }else{
                     return this.tools
                 }
-                
             }
         },
         watch: {
@@ -40,7 +41,8 @@
         created(){
             this.fetchData();
             this.categoria = this.$route.query.categoria;
-            console.log(this.categoria)
+            this.text = this.$route.query.text
+            console.log(this.text)
         },
         methods:{
             async fetchData(){
