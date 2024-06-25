@@ -1,5 +1,5 @@
 <template>
-  <div class="product-grid">
+  <div class="product-grid container">
     <div class="product-card" v-for="producto in productos" :key="producto.ID_HERRAMIENTA">
         <h3>{{ producto.NOMBRE }}</h3>
         <img

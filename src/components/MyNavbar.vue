@@ -56,9 +56,25 @@ export default {
         if(this.cambioActual == "USD"){
             this.$emit('cambiarMoneda',"CLP")
             Swal.fire({
-                title:"Moneda cambiada!!"
+                text:"Moneda cambiada a: CLP",
+                width:"300px",
+                position:"top",
+                timer:2000,
+                timerProgressBar:true,
+                showConfirmButton:false,
+                toast:true,
+                icon:"info",
             });
-        }else(this.$emit('cambiarMoneda',"USD"))
+        }else(this.$emit('cambiarMoneda',"USD"), Swal.fire({
+                text:"Moneda cambiada a: USD",
+                width:"300px",
+                position:"top",
+                timer:2000,
+                timerProgressBar:true,
+                showConfirmButton:false,
+                toast:true,
+                icon:"info",
+            }))
     }
   }
 }
