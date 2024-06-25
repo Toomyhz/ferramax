@@ -4,7 +4,7 @@
     <h1 v-else-if="categoria">Productos en la Categoría: {{ categoria }}</h1>
     <h1 v-else>Tienda</h1>
     <hr />
-    <ProductList :productos="productosFiltrados" :moneda="moneda"/>
+    <ProductList :productos="productosFiltrados" :moneda="moneda" @agregarCarrito="agregarAlCarrito"/>
     <hr />
   </div>
 </template>
@@ -12,6 +12,7 @@
 <script>
 import axios from "axios";
 import ProductList from "@/components/ProductList.vue";
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components:{
@@ -41,6 +42,7 @@ export default {
         return this.tools;
       }
     },
+    ...mapGetters(['carrito'])
   },
   watch: {
     "$route.query": {
@@ -65,6 +67,7 @@ export default {
         console.error("Error fetching data: ", error);
       }
     },
-  },
-};
+    ...mapActions(['agregarAlCarrito']),
+    }
+  };
 </script>

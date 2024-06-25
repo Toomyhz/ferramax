@@ -1,7 +1,9 @@
 <template>
-    <main>
-        <h1>
-            ESTE ES EL CARROOOOOOOOOOOOOOOOOOOOOOOOOOOO
-        </h1>
-    </main>
+  <main>
+      <MyCart />
+  </main>
 </template>
+
+<script setup lang="ts">
+import MyCart from "@/components/MyCart.vue";
+</script>
