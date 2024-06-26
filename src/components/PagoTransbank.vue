@@ -9,12 +9,6 @@ export default {
   methods: {
     iniciarPago() {
       this.$store.dispatch("iniciarPago")
-        .then((url) => {
-          window.location.href = url;
-        })
-        .catch((error) => {
-          console.error("Error al iniciar el pago:", error);
-        });
     },
   },
 };

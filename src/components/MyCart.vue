@@ -18,7 +18,7 @@
       </li>
     </ul>
     <div v-if="carrito.length > 0" class="total-carrito">
-      Total: {{ totalCarrito }}
+      Total: {{ formatearPrecio(totalCarrito) }}
     </div>
     <button v-if="carrito.length > 0" @click="vaciarCarrito">Vaciar Carrito</button>
     <PagoTransbank v-if="carrito.length > 0">Pagar</PagoTransbank>

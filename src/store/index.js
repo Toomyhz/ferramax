@@ -54,26 +54,29 @@ export default createStore({
     vaciarCarrito({ commit }) {
       commit("clearCart");
     },
-    iniciarPago({ getters }){
+    async iniciarPago({ getters }){
       const buyOrder = `O-${Date.now()}`;
       const sessionId = `S-${Date.now()}`;
-      const amount = parseFloat(getters.totalCarrito.replace(/[^0-9.-]+/g,""));
-      const returnUrl = 'http://localhost:5173/store';
-      console.log('1');
-      return axios.post('http://localhost:5000/api/init_transaction', console.log('2'),{
-        buy_order: buyOrder,
-        session_id: sessionId,
-        amount: amount,
-        return_url: returnUrl
-      })
-      .then(response => {
-        console.log('4');
-        return response.data.url;
-      })
-      .catch(error => {
-        console.error('Error al iniciar el pago, error: ', error);
-        throw error;
-      });
+      const amount = getters.totalCarrito;
+      const returnUrl = 'http://localhost:5173/cart';
+      try {
+        await axios.post("http://localhost:5000/api/init_transaction/",{
+          "amount" : amount,
+          "buy_order" : buyOrder,
+          "session_id" : sessionId,
+          "return_url" : returnUrl
+        },{
+          headers: {
+            'Content-Type':'application/json'
+          }
+        })
+        .then(response =>{
+          console.log(response.data['url']+'?token_ws='+response.data['token'])
+          window.location.href = response.data['url']+'?token_ws='+response.data['token']
+        })
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
     }
   },
   getters: {
@@ -82,7 +85,7 @@ export default createStore({
       const total = state.carrito.reduce((total, producto) =>{
         return total + producto.VALOR * producto.cantidad;
       }, 0);
-      return total.toLocaleString('es-CL', { style: 'currency', currency:'CLP' })
+      return total
     },
     formatearPrecio: () => (precio) => {
       return precio.toLocaleString('es-CL', { style: 'currency', currency:'CLP' })

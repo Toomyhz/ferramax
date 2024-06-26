@@ -32,7 +32,6 @@ import Swal from "sweetalert2";
           email:this.form.email
         })
         var input = document.getElementById('email-input');
-        console.log(response)
         if (response.data['email_valido']){
           input.classList.remove("is-invalid");
           Swal.fire({
@@ -48,7 +47,7 @@ import Swal from "sweetalert2";
         } else{
           input.classList.add("is-invalid");
           Swal.fire({
-                text:response.response.data['error'],
+                text:response.data['error'],
                 width:"300px",
                 position:"top",
                 timer:2000,
