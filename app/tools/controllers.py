@@ -6,7 +6,7 @@ from app.dolar.dolar import Dolar
 def get_all_tools():
     cursor = connection.cursor()
     try: 
-        cursor.execute("SELECT id_herramienta, nombre, valor, imagen, cantidad, id_categoria,id_marca FROM HERRAMIENTAS")
+        cursor.execute("SELECT id_herramienta, nombre, valor, imagen, cantidad, c.categoria ,id_marca,h.id_categoria FROM HERRAMIENTAS h JOIN CATEGORIAS c ON h.id_categoria = c.id_categoria")
         rows = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
         data = [dict(zip(columns, row)) for row in rows]
