@@ -14,7 +14,10 @@ CORS(app,resources={
         "allow_headers":["Content-Type","Authorization"],
         "supports_credentials":True
         },
-    r"/suscribe/":{"origins":"http://localhost:5173"}
+    r"/suscribe/":{"origins":"http://localhost:5173"},
+    r"/tools/*":{"origins":"http://localhost:5173"},
+    r"/categories/":{"origins":"http://localhost:5173"},
+    r"/marcas/":{"origins":"http://localhost:5173"}
     })
 user = os.getenv('USER_FERRAMAX')
 password = os.getenv('PASSWORD_FERRAMAX')
