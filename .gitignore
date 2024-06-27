@@ -1,7 +1,9 @@
+/venv
 /env
 venv
 /venv
 .env
+.venv
 __pycache__/
 
 OracleConnection.py
