@@ -17,10 +17,11 @@ def transaction_start(request):
         integration_type=INTEGRATION_TYPE
     )
     response = Transaction(options).create(buy_order, session_id, amount, return_url)
+    
     return jsonify({
         'url': response['url'],
         'token': response['token']
-    })
+    }), 200
 
 def transaction_end(request):
     token = request.json.get('token_ws')

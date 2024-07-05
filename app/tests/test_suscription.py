@@ -1,11 +1,10 @@
 
 import pytest
-from flask import Flask, jsonify
-from app.suscription.routes import suscribe_route
+from flask import jsonify
 from unittest.mock import patch, MagicMock
 
 
- #Mockear la función que valida el correo en la base de datos
+#Mockear la función que valida el correo en la base de datos
 def mock_validarFromDatabase(email):
     mock_db = MagicMock()
     temp_row = ["algo@gmail.com", "test@gmail.com"]
