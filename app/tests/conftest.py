@@ -4,13 +4,15 @@ import pytest
 from flask import Flask
 from unittest.mock import patch, MagicMock
 from app.suscription.routes import suscribe_route
-from app.transbank.routes import init_transaction
-
+from app.transbank.routes import init_transaction, transaction_return
+from app.tools.routes import get_tools_route
 @pytest.fixture(scope='module')
 def app():
     app = Flask(__name__)
-    app.add_url_rule('/api/init_transaction/', view_func=init_transaction, methods=['POST'])
     app.add_url_rule('/suscribe/', view_func=suscribe_route, methods=['POST'])
+    app.add_url_rule('/tools/', view_func=get_tools_route, methods=['GET'])
+    app.add_url_rule('/api/init_transaction/', view_func=init_transaction, methods=['POST'])
+    app.add_url_rule('/api/transaction_return/', view_func=transaction_return, methods=['POST'])
     return app
 
 @pytest.fixture(scope='module')

@@ -1,38 +1,48 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from app.transbank.controllers import transaction_start, transaction_end
 
 
-@patch('app.transbank.controllers.Transaction.create')
-def testcrear_transaccion(mock_create):
-    # Simular respuesta de Transbank
-    return {
-        'url': 'https://webpay3gint.transbank.cl/webpayserver/initTransaction',
-        'token': 'mock_token'
-    }
 
-def test_init_transaction(client):
-    response = client.post('/api/init_transaction/', json={"amount": 1000, "buy_order": "", "session_id": "", "return_url": ""})
+class Mock_transaction:
+    def __init__(self, options):
+        self.options = options
+
+    def create(self, buy_order, session_id, amount, return_url):
+        return {
+            'url': 'https://webpay3gint.transbank.cl/webpayserver/initTransaction',
+            'token': 'mock_token'
+        }
+
+    def commit(self, token):
+        return {
+            'status': 'AUTHORIZED',
+            'amount': 10000,
+            'buy_order': 'order12345',
+            'transaction_date': '2024-07-04T12:00:00Z',
+            'card_detail': {'card_number': '**** **** **** 1234'},
+            'accounting_date': '2024-07-04',
+            'session_id': 'session123',
+            'authorization_code': 'auth123'
+        }    
+
+def test_init_transaction(client,monkeypatch):
+    monkeypatch.setattr('app.transbank.controllers.Transaction', Mock_transaction)
+
+    response = client.post('/api/init_transaction/', json={"amount": 1000, "buy_order": "algo", "session_id": "algo", "return_url": "https://return.url"})
     response_data = response.get_json()
 
     assert response.status_code == 200
     assert response_data['url'] == 'https://webpay3gint.transbank.cl/webpayserver/initTransaction'
     assert response_data['token'] == 'mock_token'
 
-@patch('app.transbank.controllers.Transaction.commit')
-def test_confirmar_transaccion(mock_commit,client):
-    # Simular respuesta de Transbank
-    mock_commit.return_value = {
-        'status': 'AUTHORIZED',
-        'amount': 10000,
-        'buy_order': 'order12345',
-        'transaction_date': '2024-07-04T12:00:00Z'
-    }
+def test_transaction_return(client,monkeypatch):
+    monkeypatch.setattr('app.transbank.controllers.Transaction', Mock_transaction)
 
-    response = transaction_end(client)
-    response.data = response.get_json()
+    response = client.post('/api/transaction_return/', json={"token_ws": "fake_token"})
+    response_data = response.get_json()
+
     assert response.status_code == 200
-
-    assert response['status'] == 'AUTHORIZED'
-    assert response['amount'] == 10000
-    assert response['buy_order'] == 'order12345'
+    assert response_data['status'] == 'AUTHORIZED'
+    assert response_data['amount'] == 10000
+    assert response_data['buy_order'] == 'order12345'
+    assert response_data['transaction_date'] == '2024-07-04T12:00:00Z'
