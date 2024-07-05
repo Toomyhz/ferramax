@@ -6,7 +6,7 @@ def suscribe(request):
     email = data['email']
     # Validar que se envio un correo
     if email=="":
-        error= "Campo correo vacio"
+        error = "Campo correo vacio"
         return jsonify(error=error), 200
     #Validar formato correo
     email_valido = validar_correo(email)
