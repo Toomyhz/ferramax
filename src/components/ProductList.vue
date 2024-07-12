@@ -12,6 +12,7 @@
   </template>
   
   <script>
+  import Swal from 'sweetalert2';
   export default {
     name: "ProductList",
     props: {
@@ -26,6 +27,16 @@
     methods: {
       agregarAlCarrito(producto) {
         this.$emit('agregarCarrito', producto);
+        Swal.fire({
+          text: 'Producto agregado al carrito',
+          width: '300px',
+          icon: 'success',
+          position: 'top-end',
+          toast: true,
+          showConfirmButton:false,
+          timer: 2000,
+        });
+
       }
     }
   };
