@@ -7,7 +7,9 @@
         <img :src="producto.IMAGEN" alt="Imagen del producto" class="producto-imagen" />
         <div class="producto-info">
           <span class="producto-nombre">{{ producto.NOMBRE }}</span>
-          <span class="producto-precio">{{ formatearPrecio(producto.VALOR) }}</span>
+
+          <span class="producto-precio" v-if="moneda == 'CLP'">{{ formatearPrecio(producto.VALOR * producto.cantidad) }}</span>
+          <span class="producto-precio" v-if="moneda == 'USD'">${{ Math.round(producto.VALOR_EN_DOLARES * producto.cantidad * 100)/100 }}</span>
         </div>
         <div class="botones">
           <span class="cantidad">{{ producto.cantidad }} unidades</span>
@@ -18,7 +20,7 @@
       </li>
     </ul>
     <div v-if="carrito.length > 0" class="total-carrito">
-      Total: {{ formatearPrecio(totalCarrito) }}
+      Total: {{ moneda }} {{ formatearPrecio(totalCarrito) }}
     </div>
     <button v-if="carrito.length > 0" @click="vaciarCarrito">Vaciar Carrito</button>
     <PagoTransbank v-if="carrito.length > 0">Pagar</PagoTransbank>
@@ -29,6 +31,11 @@
 import PagoTransbank from './PagoTransbank.vue';
 
 export default {
+  props: {
+    moneda: {
+      type: String
+    }
+  },
   components: {
     PagoTransbank
   },
@@ -46,6 +53,7 @@ export default {
   methods: {
     borrarItems(productoId) {
       this.$store.dispatch('borrarItems', productoId);
+      console.log(this.moneda)
     },
     removerDelCarrito(productoId) {
       this.$store.dispatch('removerDelCarrito', productoId);
