@@ -1,35 +1,4 @@
-# FERRAMAX_FRONT
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+<html>
+  <h1>Proyecto Universitario: FERRAMAX-FRONT</h1>
+  <h4>FERRAMAX es un pequeño proyecto semestral evaluado realizado por 3 personas, este proyecto en síntesis consta de 2 partes el front-end y el back-end, este repositorio de github es únicamente el front-end, el <a href="https://github.com/Toomyhz/Ferramax-api">back-end</a> esta en un repositorio apartado unicamente para el mismo.</h4>
+</html>
