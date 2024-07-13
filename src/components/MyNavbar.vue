@@ -1,208 +1,237 @@
-<script setup>
-import { RouterLink } from 'vue-router';
-
-</script>
-<script>
-import axios from 'axios';
-import Swal from 'sweetalert2';
-export default {
-    data(){
-        return{
-        categorias:[],
-        text:"",
-        };
-    },
-    props:{
-        cambioActual:{
-            type: String,
-        }
-    },
-    watch: {
-        '$route.query': {
-            handler() {
-                this.text = this.$route.query.text;
-            },
-            immediate: true
-        }
-    },
-    created(){
-        this.fetchData();
-        this.text = this.$route.query.text
-    },
-    computed:{
-        isActive(){
-            return routeName => {
-                return this.$route.name === routeName
-            }
-        }
-    },
-    methods:{
-    async fetchData(){
-        try{
-            const response = await axios.get('http://127.0.0.1:5000/categories/');
-            this.categorias = response.data['CATEGORIAS'];
-        }catch(error){
-            console.error('Error fetching data: ', error)
-        }
-    },
-    navegar(){
-        if (this.text.trim() !== '') {
-            this.$router.push({ name: 'store', query: { text: this.text } });
-        }else{
-            this.$router.push({ name: 'store'});
-        }
-    },
-    cambiarCambio(){
-        if(this.cambioActual == "USD"){
-            this.$emit('cambiarMoneda',"CLP")
-            Swal.fire({
-                text:"Moneda cambiada a: CLP",
-                width:"300px",
-                position:"top",
-                timer:2000,
-                timerProgressBar:true,
-                showConfirmButton:false,
-                toast:true,
-                icon:"info",
-            });
-        }else(this.$emit('cambiarMoneda',"USD"), Swal.fire({
-                text:"Moneda cambiada a: USD",
-                width:"300px",
-                position:"top",
-                timer:2000,
-                timerProgressBar:true,
-                showConfirmButton:false,
-                toast:true,
-                icon:"info",
-            }))
-    }
-  }
-}
-</script>
 <template>
     <header>
-  <div class="start">
-    <div class="marca">
-      <RouterLink :to="{name:'home'}"><span class="first">FERRA</span><span class="second">MAX</span></RouterLink>
-    </div>
-    <div id="buscador" class="m-auto">
-        <div>
-            <span><i class="bi bi-search"></i></span><input type="search" name="text" id="search" @keyup.enter="navegar" v-model="text" placeholder="Ingrese el producto a buscar">
+      <div class="start">
+        <div class="marca">
+          <RouterLink :to="{ name: 'home' }">
+            <span class="first">FERRA</span><span class="second">MAX</span>
+          </RouterLink>
         </div>
-    </div>
-    <div>
-        <button @click="cambiarCambio">Tipo de cambio: {{ cambioActual }}</button>
-    </div>
-  </div>
-  <nav>
-    <div class="div-categoria">
-      <button id="btn-categorias" onclick=""><span><i class="bi bi-list"></i>Categorias</span><span><i class="bi bi-arrow-bar-down"></i></span></button>
-      <div id="dropdown-content" class="dropdown-content">
-        <RouterLink :to="{ name : 'store', query: { categoria: categoria.CATEGORIA } }"  v-for="categoria in categorias" :key = "categoria.ID_CATEGORIA" >{{ categoria.CATEGORIA }}</RouterLink>
+        <div id="buscador" class="m-auto">
+          <div>
+            <span><i class="bi bi-search"></i></span>
+            <input
+              type="search"
+              name="text"
+              id="search"
+              @keyup.enter="navegar"
+              v-model="text"
+              placeholder="Ingrese el producto a buscar"
+            />
+          </div>
+        </div>
+        <div>
+          <button @click="cambiarCambio">Tipo de cambio: {{ cambioActual }}</button>
+        </div>
       </div>
-    </div>
-    <ul class="navbar-1">
-      <li><RouterLink :to="{ name : 'store' }" :class="{ ' active-link': isActive('store')}" >Tienda</RouterLink></li>
-      <li><RouterLink :to="{ name : 'login' }" :class="{ ' active-link': isActive('login')}">Iniciar sesión</RouterLink></li>
-      <li><RouterLink :to="{ name : 'register'}" :class="{ ' active-link': isActive('register')}" >Registrarse</RouterLink></li>
-    </ul>
-    <div class="tools">
-      <li>
-        <RouterLink :to="{ name : 'cart' }" :class="{'active-link' : isActive('cart')}" ><i class="bi bi-cart3"></i></RouterLink>
-      </li>
-    </div>
-  </nav>
-</header>
-</template>
-<style scoped>
-    
-header{
+      <nav>
+        <div class="div-categoria">
+          <button id="btn-categorias">
+            <span><i class="bi bi-list"></i>Categorias</span>
+            <span><i class="bi bi-arrow-bar-down"></i></span>
+          </button>
+          <div id="dropdown-content" class="dropdown-content">
+            <RouterLink
+              :to="{ name: 'store', query: { categoria: categoria.CATEGORIA } }"
+              v-for="categoria in categorias"
+              :key="categoria.ID_CATEGORIA"
+            >{{ categoria.CATEGORIA }}</RouterLink>
+          </div>
+        </div>
+        <ul class="navbar-1">
+          <li>
+            <RouterLink :to="{ name: 'store' }" :class="{ ' active-link': isActive('store') }"
+              >Tienda</RouterLink
+            >
+          </li>
+          <li>
+            <RouterLink :to="{ name: 'login' }" :class="{ ' active-link': isActive('login') }"
+              >Iniciar sesión</RouterLink
+            >
+          </li>
+          <li>
+            <RouterLink
+              :to="{ name: 'register' }"
+              :class="{ ' active-link': isActive('register') }"
+              >Registrarse</RouterLink
+            >
+          </li>
+        </ul>
+        <div class="tools">
+          <li>
+            <RouterLink :to="{ name: 'cart' }" :class="{ 'active-link': isActive('cart') }"
+              ><i class="bi bi-cart3"></i><span v-if="carrito.length > 0">{{ carrito.length }}</span></RouterLink
+          >
+          </li>
+        </div>
+      </nav>
+    </header>
+  </template>
+  
+  <script setup>
+  import { RouterLink } from 'vue-router';
+  </script>
+  
+  <script>
+  import axios from 'axios';
+  import Swal from 'sweetalert2';
+  
+  export default {
+    data() {
+      return {
+        categorias: [],
+        text: '',
+      };
+    },
+    props: {
+      cambioActual: {
+        type: String,
+      },
+    },
+    watch: {
+      '$route.query': {
+        handler() {
+          this.text = this.$route.query.text;
+        },
+        immediate: true,
+      },
+    },
+    created() {
+      this.fetchData();
+      this.text = this.$route.query.text;
+    },
+    computed: {
+      isActive() {
+        return (routeName) => {
+          return this.$route.name === routeName;
+        };
+      },
+      carrito() {
+        return this.$store.getters.carrito;
+      }
+    },
+    methods: {
+      async fetchData() {
+        try {
+          const response = await axios.get('http://127.0.0.1:5000/categories/');
+          this.categorias = response.data['CATEGORIAS'];
+        } catch (error) {
+          console.error('Error fetching data: ', error);
+        }
+      },
+      navegar() {
+        if (this.text.trim() !== '') {
+          this.$router.push({ name: 'store', query: { text: this.text } });
+        } else {
+          this.$router.push({ name: 'store' });
+        }
+      },
+      cambiarCambio() {
+        if (this.cambioActual === 'USD') {
+          this.$emit('cambiarMoneda', 'CLP');
+          Swal.fire({
+            text: 'Moneda cambiada a: CLP',
+            width: '300px',
+            position: 'top',
+            timer: 2000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            toast: true,
+            icon: 'info',
+          });
+        } else {
+          this.$emit('cambiarMoneda', 'USD');
+          Swal.fire({
+            text: 'Moneda cambiada a: USD',
+            width: '300px',
+            position: 'top',
+            timer: 2000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            toast: true,
+            icon: 'info',
+          });
+        }
+      },
+    },
+  };
+  </script>
+  
+  <style scoped>
+  header {
     margin: 0;
     padding: 0;
-}
-.start{
+  }
+  .start {
     height: 100px;
     padding: 0 50px;
     background-color: #f5f5f5;
     display: flex;
     align-items: center;
-}
-nav{
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  nav {
     height: 50px;
     padding: 0 50px;
     background-color: rgb(49, 49, 58);
     display: flex;
     align-items: center;
-}
-.marca{
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .marca {
     height: 50px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 40px;
-    align-content: center;
     display: flex;
-    cursor:pointer;
+    cursor: pointer;
     transition: 0.5s;
-}
-.marca:hover{
+  }
+  .marca:hover {
     transform: scale(1.2);
-    
-}
-.marca>a{
+  }
+  .marca > a {
     text-decoration: none;
-}
-.first{
+  }
+  .first {
     background-color: #ffd333;
-    color: rgb(37,37,46);
+    color: rgb(37, 37, 46);
     padding: 0 10px;
-}
-.second{
-    background-color: rgb(37,37,46);
+  }
+  .second {
+    background-color: rgb(37, 37, 46);
     color: #ffd333;
     padding: 0 10px;
-}
-.div-categoria{
+  }
+  .div-categoria {
     height: 100%;
     position: relative;
     display: inline-block;
-}
-.dropdown-content{
-    position: relative;
-    height:0;
+  }
+  .dropdown-content {
+    position: absolute;
     width: 100%;
     display: none;
     background-color: #ffd333;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    transition: 5s ;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    visibility: hidden;
-    
-}
-.dropdown-content a {
+  }
+  .dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    transition: 0.3s;
-}
-.dropdown-content a:hover {
+  }
+  .dropdown-content a:hover {
     background-color: antiquewhite;
-    
-}
-.div-categoria:hover .dropdown-content{
+  }
+  .div-categoria:hover .dropdown-content {
     display: block;
-    height: auto;
-    visibility: visible;
-}
-.div-categoria #btn-categorias>span:last-child{
-    transition: 0.5s;
-}
-.div-categoria:hover #btn-categorias>span:last-child{
-    transform: rotate(540deg);
-}
-#btn-categorias{
+  }
+  #btn-categorias {
     height: 100%;
-    width: 300px;
-    padding: 0 20px;
+    width: 200px;
+    padding: 0 10px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     border: none;
     font-size: 20px;
@@ -210,90 +239,116 @@ nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-}
-.navbar-1{
+  }
+  .navbar-1 {
     padding: 0;
     margin: 0;
     display: flex;
     height: 100%;
     list-style-type: none;
-    li{
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        width: 200px;
-        display: flex;
-        a{
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            width: 100%;
-            text-decoration: none;
-            color: #f5f5f5;
-            transition: 0.2s;
-            text-align: center;
-            align-content: center;
-            border-bottom: none;
-        };
-        a:hover{
-            color: #ffd333;
-            border-bottom: #ffd333 5px solid;
-            box-sizing: border-box;
-            font-size: 1.2rem;
-        }
-
-    };    
-}
-.tools{
+    flex-wrap: wrap;
+  }
+  .navbar-1 li {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+  }
+  .navbar-1 li a {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    color: #f5f5f5;
+    text-align: center;
+    align-content: center;
+    border-bottom: none;
+  }
+  .navbar-1 li a:hover {
+    color: #ffd333;
+    border-bottom: #ffd333 5px solid;
+    font-size: 1.2rem;
+  }
+  .tools {
     display: flex;
     height: 100%;
     margin-left: auto;
-}
-.tools>li{
+  }
+  .tools > li {
     list-style-type: none;
     width: 70px;
     height: 100%;
     display: flex;
-    a{
-        width: 70px;
-        height: 100%;
-        text-decoration: none;
-        color: #ffd333;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: 0.2s;
-        font-size: 1.5rem;
-    };
-    a:hover{
-        border-bottom: 5px #ffd333 solid;
-        box-sizing: border-box;
-        i{
-            font-size:2rem;
-
-        }
-    }
-}
-#buscador{
-    div{
-        input{
-            width: 400px;
-            border: 1px solid black;
-            transition:0.2s;
-        }
-    }
-}
-#search:focus{
+  }
+  .tools > li a {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: #ffd333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+  }
+  .tools > li a:hover {
+    border-bottom: 5px #ffd333 solid;
+  }
+  #buscador {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 10px 0;
+  }
+  #buscador input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid black;
+    transition: 0.2s;
+  }
+  #buscador input:focus {
     outline: none;
     border: 3px solid #ffd333;
-    width: 450px;
-}
-.active-link{
+  }
+  .active-link {
     color: #ffd333 !important;
-    border-top: #ffd333 5px solid !important;
     border-bottom: #ffd333 5px solid !important;
-    box-sizing: border-box !important;
     font-size: 1.2rem;
-}
-</style>
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .start {
+      padding: 0 20px;
+      height: auto;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    nav {
+      padding: 0 20px;
+      height: auto;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    #btn-categorias {
+      width: 100%;
+    }
+    .navbar-1 {
+      flex-direction: column;
+      width: 100%;
+    }
+    .navbar-1 li {
+      width: 100%;
+      text-align: center;
+    }
+    .tools {
+      width: 100%;
+      justify-content: flex-end;
+    }
+  }
+  </style>
+  
