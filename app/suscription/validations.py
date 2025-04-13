@@ -8,20 +8,15 @@ def validar_correo(correo):
 
 def validarFromDatabase(correo):
     cursor = connection.cursor()
-    temp_row = []
     try:
-        cursor.execute(f"SELECT correo FROM SUSCRIPCIONES")
+        cursor.execute(f"SELECT correo FROM usuarios WHERE correo = '{correo}'")
         rows = cursor.fetchall()
-        for i in rows:
-            temp_row.append((i[0]))
     except Exception as e:
         return jsonify({'error': str(e)})
     finally:
         cursor.close()
     
-    if correo in temp_row:
-        return jsonify(error='Email ya existe')
-
-    else:
+    if len(rows) > 0:
+        return jsonify(error="El correo ya existe en la base de datos")
+    elif len(rows) == 0:
         return jsonify(email_valido=correo)
-        

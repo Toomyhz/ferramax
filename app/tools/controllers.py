@@ -16,7 +16,7 @@ def get_all_tools():
             key = "VALOR_EN_DOLARES"
             value = round(price/float(dolar),2)
             tool[key] = value
-        return jsonify(TOOLS = data), 200
+        return jsonify(TOOLS = data)
     except Exception as e:
         return jsonify({'error': str(e)}), 400
     finally:

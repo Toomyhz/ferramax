@@ -21,5 +21,3 @@ def suscribe(request):
     elif resp.json.get('email_valido'):
         # Una vez validado todo, guardar en DB
         return saveDb(email)
-            
-    

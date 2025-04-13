@@ -9,15 +9,15 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app,resources={
     r"/api/*":{
-        "origins":"http://localhost:5173",
+        "origins":"*",
         "methods":["POST","GET"],
         "allow_headers":["Content-Type","Authorization"],
         "supports_credentials":True
         },
-    r"/suscribe/":{"origins":"http://localhost:5173"},
-    r"/tools/*":{"origins":"http://localhost:5173"},
-    r"/categories/":{"origins":"http://localhost:5173"},
-    r"/marcas/":{"origins":"http://localhost:5173"}
+    r"/suscribe/":{"origins":"*"},
+    r"/tools/*":{"origins":"*"},
+    r"/categories/":{"origins":"*"},
+    r"/marcas/":{"origins":"*"}
     })
 user = os.getenv('USER_FERRAMAX')
 password = os.getenv('PASSWORD_FERRAMAX')
@@ -28,3 +28,4 @@ connection = connect(user,password,wallet_password)
 from .tools.routes import get_tools_route,get_tool_route,get_marcas_route 
 from .transbank.routes import init_transaction,transaction_return
 from .suscription.routes import suscribe_route
+from .users.routes import create_user_route
