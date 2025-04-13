@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <h1 v-if="text">Resultados de: {{ text }}</h1>
-    <h1 v-else-if="categoria">Productos en la Categoría: {{ categoria }}</h1>
-    <h1 v-else>Tienda</h1>
-    <hr />
-    <ProductList :productos="productosFiltrados" :moneda="moneda" @agregarCarrito="agregarAlCarrito"/>
-    <hr />
+  <div class="store-view">
+    <div class="container">
+      <h1 v-if="text">Resultados de: {{ text }}</h1>
+      <h1 v-else-if="categoria">Productos en la Categoría: {{ categoria }}</h1>
+      <h1 v-else>Tienda</h1>
+      <ProductList :productos="productosFiltrados" :moneda="moneda" @agregarCarrito="agregarAlCarrito"/>
+    </div>
   </div>
 </template>
 
@@ -71,3 +71,22 @@ export default {
     }
   };
 </script>
+<style scoped>
+.store-view {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container {
+  width: 90%;
+  margin: 20px;
+
+}
+h1{
+  font-size: 2em;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 10px;  
+}
+</style>

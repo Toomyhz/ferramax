@@ -7,8 +7,7 @@
           </RouterLink>
         </div>
         <div id="buscador" class="m-auto">
-          <div>
-            <span><i class="bi bi-search"></i></span>
+            <span ><i class="bi bi-search"></i></span>
             <input
               type="search"
               name="text"
@@ -17,9 +16,8 @@
               v-model="text"
               placeholder="Ingrese el producto a buscar"
             />
-          </div>
         </div>
-        <div>
+        <div class="cambio">
           <button @click="cambiarCambio">Tipo de cambio: {{ cambioActual }}</button>
         </div>
       </div>
@@ -166,10 +164,12 @@
     padding: 0 50px;
     background-color: #f5f5f5;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
   }
+
+  
   nav {
     height: 50px;
     padding: 0 50px;
@@ -178,6 +178,8 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    width: 100%;
+
   }
   .marca {
     height: 50px;
@@ -188,7 +190,7 @@
     transition: 0.5s;
   }
   .marca:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
   .marca > a {
     text-decoration: none;
@@ -299,21 +301,66 @@
   }
   #buscador {
     display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
+    align-items: stretch;
+    width: 500px;
     margin: 10px 0;
   }
-  #buscador input {
-    width: 100%;
-    padding: 5px;
+  #buscador span{
     border: 1px solid black;
-    transition: 0.2s;
+    border-radius: 50px 0% 0% 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffd333;
+    color: #000;
+    font-size: 1.2rem;
+    transition: 0.2s all ease-in-out;
+  }
+  #buscador input {
+    flex:1;
+    width: 80%;
+    padding: 10px;
+    border: 1px solid black;
+    border-left: none;
+    border-radius: 0% 25px 25px 0%;
+    transition: 0.2s all ease-in-out;
   }
   #buscador input:focus {
     outline: none;
-    border: 3px solid #ffd333;
+    border: 2.5px solid #ffd333;
+    box-sizing: border-box;
   }
+  #buscador:focus-within span {
+  background-color: rgb(37,37,46);
+  color:#ffd333; 
+  border-right: none; 
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.cambio{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-left: auto;
+  }
+  .cambio button {
+    background-color: #ffd333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 1rem;
+  }
+  .cambio button:hover {
+    background-color: #e6c32f;
+  }
+  .cambio button:active {
+    background-color: #d4b52a;
+}
+
   .active-link {
     color: #ffd333 !important;
     border-bottom: #ffd333 5px solid !important;
@@ -321,33 +368,51 @@
   }
   
   /* Responsive Styles */
-  @media (max-width: 768px) {
+  @media (max-width: 1050px) {
     .start {
-      padding: 0 20px;
+      width: 100%;
       height: auto;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+      padding:0;
     }
-    nav {
+    .marca{
+      font-size: 40px;
+      margin: 10px 0 30px 0;
+    }
+    #buscador {
+      width: 80%;
+      margin: 20px;
+      height: 35px;
+    }
+    #buscador input {
+      width: 100%;
+    }
+    .cambio{
+      position: relative;
+      margin: 10px 0;
+      display: flex
+    }
+    .cambio>button{
+      margin: 0 10px;
+      font-size: 1rem;
+    }
+    nav{
+      flex-direction: column;
+      align-items: center;
       padding: 0 20px;
-      height: auto;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    #btn-categorias {
-      width: 100%;
-    }
-    .navbar-1 {
-      flex-direction: column;
-      width: 100%;
-    }
-    .navbar-1 li {
-      width: 100%;
-      text-align: center;
     }
     .tools {
-      width: 100%;
-      justify-content: flex-end;
+      margin-left: 0;
+    }
+  }
+  @media (max-width: 768px) {
+    nav{
+      padding: 0;
+      align-items: normal;
+    }
+    .navbar-1{
+      display:none;
     }
   }
   </style>

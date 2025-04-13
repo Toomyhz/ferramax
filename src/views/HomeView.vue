@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="home">
     <section class="firstSection">
       <div
         id="carouselExampleIndicators"
@@ -149,6 +149,14 @@ export default {
 </script>
 
 <style scoped>
+.home{
+  .store-view {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+}
 .firstSection {
   width: 95%;
   margin: 50px auto;

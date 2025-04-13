@@ -6,7 +6,7 @@
         <p>{{ producto.CATEGORIA }}</p>
         <p v-if="moneda == 'USD'">USD $ {{ producto.VALOR_EN_DOLARES }}</p>
         <p v-if="moneda == 'CLP'">CLP ${{ producto.VALOR }}</p>
-        <button @click="agregarAlCarrito(producto)">Agregar a Carrito</button>
+        <button class="btn-add-cart" @click="agregarAlCarrito(producto)">Agregar a Carrito</button>
       </div>
     </div>
   </template>
@@ -81,6 +81,29 @@
   .product-card p:last-of-type {
     font-weight: bold;
     color: #000;
+  }
+  .btn-add-cart {
+    background-color: #ffd333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease-in-out;
+    margin:16px 0;
+  }
+  .btn-add-cart:hover {
+    background-color: #e6c32f;
+  }
+  .btn-add-cart:active {
+    background-color: #d4b52a;
+  }
+  @media screen and (max-width: 768px) {
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .product-card {
+      margin: 0 auto;
+    }
+    
   }
   </style>
   
