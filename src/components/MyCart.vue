@@ -20,7 +20,8 @@
       </li>
     </ul>
     <div v-if="carrito.length > 0" class="total-carrito">
-      Total: {{ moneda }} {{ formatearPrecio(totalCarrito) }}
+      <span v-if="moneda == 'CLP'">Total: CLP $ {{ formatearPrecio(totalCarrito) }}</span>
+      <span v-if="moneda == 'USD'">Total: USD $ {{ totalCarritoDolares }}</span>
     </div>
     <button v-if="carrito.length > 0" @click="vaciarCarrito">Vaciar Carrito</button>
     <PagoTransbank v-if="carrito.length > 0">Pagar</PagoTransbank>
@@ -45,6 +46,9 @@ export default {
     },
     totalCarrito() {
       return this.$store.getters.totalCarrito;
+    },
+    totalCarritoDolares() {
+      return this.$store.getters.totalCarritoDolares;
     },
     formatearPrecio() {
       return this.$store.getters.formatearPrecio;

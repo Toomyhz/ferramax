@@ -87,6 +87,12 @@ export default createStore({
       }, 0);
       return total
     },
+    totalCarritoDolares: (state) => {
+      const total = state.carrito.reduce((total, producto) =>{
+        return total + producto.VALOR_EN_DOLARES * producto.cantidad;
+      }, 0);
+      return total
+    },
     formatearPrecio: () => (precio) => {
       return precio.toLocaleString('es-CL', { style: 'currency', currency:'CLP' })
     }
