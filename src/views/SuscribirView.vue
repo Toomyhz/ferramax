@@ -61,7 +61,7 @@ import Swal from "sweetalert2";
     }
   }
 </script>  
-<style>
+<style scoped>
 
 .text-container{
     min-width: 200px;

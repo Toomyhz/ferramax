@@ -55,11 +55,11 @@
           </li>
         </ul>
         <div class="tools">
-          <li>
+          <div>
             <RouterLink :to="{ name: 'cart' }" :class="{ 'active-link': isActive('cart') }"
-              ><i class="bi bi-cart3"></i><span v-if="carrito.length > 0">{{ carrito.length }}</span></RouterLink
+              ><i class="bi bi-cart3"></i><span class="contador_carrito" v-if="carrito.length > 0">{{ carrito.length }}</span></RouterLink
           >
-          </li>
+          </div>
         </div>
       </nav>
     </header>
@@ -70,7 +70,7 @@
   </script>
   
   <script>
-  import axios from 'axios';
+  import {getCategories} from "@/api/categories";
   import Swal from 'sweetalert2';
   
   export default {
@@ -110,8 +110,8 @@
     methods: {
       async fetchData() {
         try {
-          const response = await axios.get('http://127.0.0.1:5000/categories/');
-          this.categorias = response.data['CATEGORIAS'];
+          this.categorias = await getCategories()
+          console.log("testeo")
         } catch (error) {
           console.error('Error fetching data: ', error);
         }
@@ -280,13 +280,13 @@
     height: 100%;
     margin-left: auto;
   }
-  .tools > li {
+  .tools > div {
     list-style-type: none;
     width: 70px;
     height: 100%;
     display: flex;
   }
-  .tools > li a {
+  .tools > div a {
     width: 100%;
     height: 100%;
     text-decoration: none;
@@ -296,7 +296,7 @@
     align-items: center;
     font-size: 1.5rem;
   }
-  .tools > li a:hover {
+  .tools > div a:hover {
     border-bottom: 5px #ffd333 solid;
   }
   #buscador {
@@ -367,6 +367,17 @@
     font-size: 1.2rem;
   }
   
+  .contador_carrito{
+    height: 20px;
+    width: 20px;
+    display: flex;
+    text-align:center;
+    justify-content: center;
+    font-size: 0.9rem;
+    background-color: #ffd333;
+    color: rgb(37, 37, 46);
+    border-radius:50%
+  }
   /* Responsive Styles */
   @media (max-width: 1050px) {
     .start {
@@ -407,6 +418,9 @@
     }
   }
   @media (max-width: 768px) {
+    .marca:hover {
+    transform: none;
+    }
     nav{
       padding: 0;
       align-items: normal;

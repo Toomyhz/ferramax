@@ -10,18 +10,18 @@
 </template>
 
 <script>
-import axios from "axios";
+import { getTools } from "@/api/tools";
 import ProductList from "@/components/ProductList.vue";
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  components:{
-    ProductList
+  components: {
+    ProductList,
   },
   props: {
-    moneda:{
-      type:String
-    }
+    moneda: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -33,7 +33,7 @@ export default {
   computed: {
     productosFiltrados() {
       if (this.categoria) {
-        return this.tools.filter((tool) => tool.CATEGORIA == this.categoria);
+        return this.tools.filter((tool) => tool.CATEGORIA === this.categoria);
       } else if (this.text) {
         return this.tools.filter((tool) =>
           tool.NOMBRE.toUpperCase().includes(this.text.toUpperCase())
@@ -42,7 +42,7 @@ export default {
         return this.tools;
       }
     },
-    ...mapGetters(['carrito'])
+    ...mapGetters(["carrito"]),
   },
   watch: {
     "$route.query": {
@@ -61,16 +61,16 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/tools/");
-        this.tools = response.data["TOOLS"];
+        this.tools = await getTools();
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error("Error fetching data:", error);
       }
     },
-    ...mapActions(['agregarAlCarrito']),
-    }
-  };
+    ...mapActions(["agregarAlCarrito"]),
+  },
+};
 </script>
+
 <style scoped>
 .store-view {
   width: 100%;
@@ -79,7 +79,7 @@ export default {
   align-items: center;
 }
 .container {
-  width: 90%;
+  width: 95%;
   margin: 20px;
 
 }

@@ -124,7 +124,7 @@ import { RouterLink } from "vue-router";
 </script>
 
 <script>
-import axios from "axios";
+import { getBrands } from "@/api/brands";
 
 export default {
   data() {
@@ -138,8 +138,7 @@ export default {
   methods: {
     async fetchMarcaData() {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/marcas/");
-        this.brands = response.data["MARCAS"];
+        this.brands = await getBrands()
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -150,12 +149,10 @@ export default {
 
 <style scoped>
 .home{
-  .store-view {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 }
 .firstSection {
   width: 95%;
@@ -229,6 +226,7 @@ export default {
 
 .secondSection {
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
