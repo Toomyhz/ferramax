@@ -5,7 +5,6 @@ from app import app
 @app.route('/tools/', methods=['GET'])
 def get_tools_route():
     response = get_all_tools()
-    response.headers["Cache-Control"] = 'no-store' 
     return response
 
 @app.route('/tools/<id>', methods=['GET'])
@@ -15,7 +14,6 @@ def get_tool_route(id):
 @app.route('/categories/', methods =['GET'])
 def get_categories_route():
     response = make_response(get_all_categories())
-    response.headers["Cache-Control"] = 'no-store' 
     return response
 
 @app.route('/marcas/', methods =['GET'])

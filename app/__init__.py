@@ -9,15 +9,16 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app,resources={
     r"/api/*":{
-        "origins":"*",
+        "origins":"http://localhost:5173",
         "methods":["POST","GET"],
         "allow_headers":["Content-Type","Authorization"],
         "supports_credentials":True
         },
-    r"/suscribe/":{"origins":"*"},
-    r"/tools/*":{"origins":"*"},
-    r"/categories/":{"origins":"*"},
-    r"/marcas/":{"origins":"*"}
+    r"/suscribe/":{"origins":"http://localhost:5173"},
+    r"/tools/*":{"origins":"http://localhost:5173"},
+    r"/categories/":{"origins":"http://localhost:5173"},
+    r"/marcas/":{"origins":"http://localhost:5173"},
+    r"/users/*":{"origins":"http://localhost:5173","methods":["POST","GET","OPTIONS"]}
     })
 user = os.getenv('USER_FERRAMAX')
 password = os.getenv('PASSWORD_FERRAMAX')
