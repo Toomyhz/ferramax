@@ -58,7 +58,7 @@ export default createStore({
       const buyOrder = `O-${Date.now()}`;
       const sessionId = `S-${Date.now()}`;
       const amount = getters.totalCarrito;
-      const returnUrl = 'http://localhost:5173/cart';
+      const returnUrl = 'http://localhost:5173/postpago';
       try {
         await axios.post("http://localhost:5000/api/init_transaction/",{
           "amount" : amount,

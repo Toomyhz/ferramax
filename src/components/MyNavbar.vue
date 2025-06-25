@@ -18,7 +18,7 @@
             />
         </div>
         <div class="cambio">
-          <button @click="cambiarCambio">Tipo de cambio: {{ cambioActual }}</button>
+          <button id="btn-tipo-cambio" @click="cambiarCambio">Tipo de cambio: {{ cambioActual }}</button>
         </div>
       </div>
       <nav>

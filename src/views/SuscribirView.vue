@@ -1,7 +1,7 @@
 <template>
     <div class="container position-absolute top-50 start-50 translate-middle">
       <div class="form-container position-relative" id="form">
-        <h2>Introduce tu gmail para ofertas únicas</h2>
+        <h2>Introduce tu correo para ofertas únicas</h2>
         <form @submit.prevent="submitForm" method="post">
           <input v-model="form.email" placeholder="ejemplo@gmail.com" type="email" name="email" class="form-control " id="email-input" required>
           <button type="submit" class="btn btn-warning">Suscribete</button>
@@ -9,9 +9,9 @@
       </div>
       <div class="text-container text-break">
         <h1 class="text-container-aviso">¡SUSCRÍBETE A FERRAMAX!</h1>
-        <h4>
+        <p class="fs-5">
           Para esos clientes que quieren estar informados de todo lo que traiga Ferramax y sus descuentos únicos, ofrecemos la opción de suscripción, la cual no cuenta con costo alguno. Se te enviará de manera periódica información y descuentos únicos de nuestra compañía.
-        </h4>
+        </p>
       </div>
     </div>
 </template>

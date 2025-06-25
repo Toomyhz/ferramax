@@ -1,11 +1,11 @@
 <template>
     <div class="product-grid container">
       <div class="product-card" v-for="producto in productos" :key="producto.ID_HERRAMIENTA">
-        <h3>{{ producto.NOMBRE }}</h3>
+        <p class="fs-5 text"><strong>{{ producto.NOMBRE }}</strong></p>
         <img :src="producto.IMAGEN" alt="Imagen del Producto" class="product-img"/>
         <p>{{ producto.CATEGORIA }}</p>
-        <p v-if="moneda == 'USD'">USD $ {{ producto.VALOR_EN_DOLARES }}</p>
-        <p v-if="moneda == 'CLP'">CLP ${{ producto.VALOR }}</p>
+        <p v-if="moneda == 'USD'" :class="`valor-usd-${producto.ID_HERRAMIENTA}`">USD $ {{ producto.VALOR_EN_DOLARES }}</p>
+        <p v-if="moneda == 'CLP'" class="valor-clp">CLP ${{ producto.VALOR }}</p>
         <button class="btn-add-cart" @click="agregarAlCarrito(producto)">Agregar a Carrito</button>
       </div>
     </div>

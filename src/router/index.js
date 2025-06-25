@@ -41,7 +41,12 @@ const router = createRouter({
       path: '/suscribir',
       name: 'suscribir',
       component: () => import('../views/SuscribirView.vue')
-    }
+    },
+{
+  path: '/postpago',
+  name: 'PostPago',
+  component: () => import('@/components/PostPago.vue')
+}
     
   ]
 })
