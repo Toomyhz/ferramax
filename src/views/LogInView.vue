@@ -96,7 +96,7 @@ async function login(e) {
     localStorage.setItem("user_id", user_id);
 
     // Redirigir
-    router.push("/perfil");
+    router.push("/");
   } catch (err) {
     alert("Correo o contraseña inválidos.");
     console.error("Error de login", err);

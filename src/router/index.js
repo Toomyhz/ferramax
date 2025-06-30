@@ -1,54 +1,64 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: HomeView
+      path: "/",
+      name: "home",
+      component: HomeView,
     },
     {
-      path: '/about',
-      name: 'about',
+      path: "/about",
+      name: "about",
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: () => import("../views/AboutView.vue"),
     },
     {
-      path: '/cart',
-      name: 'cart',
-      component: () => import('../views/CartView.vue')
+      path: "/cart",
+      name: "cart",
+      component: () => import("../views/CartView.vue"),
     },
     {
-      path: '/store',
-      name: 'store',
-      component: () => import('../views/StoreView.vue')
+      path: "/store",
+      name: "store",
+      component: () => import("../views/StoreView.vue"),
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/LogInView.vue')
+      path: "/login",
+      name: "login",
+      component: () => import("../views/LogInView.vue"),
     },
     {
-      path: '/register',
-      name: 'register',
-      component: () => import('../views/RegisterView.vue')
+      path: "/register",
+      name: "register",
+      component: () => import("../views/RegisterView.vue"),
     },
     {
-      path: '/suscribir',
-      name: 'suscribir',
-      component: () => import('../views/SuscribirView.vue')
+      path: "/suscribir",
+      name: "suscribir",
+      component: () => import("../views/SuscribirView.vue"),
     },
-{
-  path: '/postpago',
-  name: 'PostPago',
-  component: () => import('@/components/PostPago.vue')
-}
-    
-  ]
-})
+    {
+      path: "/postpago",
+      name: "PostPago",
+      component: () => import("@/components/PostPago.vue"),
+    },
+    {
+      path: "/admin-tools",
+      name: "admin-tools",
+      component: () => import("../views/AdminTools.vue"),
+    },
+    {
+      path: "/admin/edit/:id",
+      name: "editTool",
+      component: () => import("@/views/EditTool.vue"),
+      props: true,
+    },
+  ],
+});
 
-export default router
+export default router;
