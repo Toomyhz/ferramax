@@ -11,6 +11,8 @@ def transaction_start(request):
     buy_order = data.get('buy_order')
     session_id = data.get('session_id')
     return_url = data.get('return_url')
+    email = data.get('email')  # nuevo
+
     options = WebpayOptions(
         commerce_code=COMMERCE_CODE,
         api_key=API_KEY,
@@ -33,6 +35,9 @@ def transaction_end(request):
     )
 
     response = Transaction(options).commit(token)
+
+    # Guardar la compra aquí
+
 
     return jsonify({
         'status': response['status'],

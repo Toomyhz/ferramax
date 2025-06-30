@@ -26,7 +26,7 @@ wallet_password = os.getenv('WALLET_PASSWORD')
 
 connection = connect(user,password,wallet_password)
 
-from .tools.routes import get_tools_route,get_tool_route,get_marcas_route 
+from .tools.routes import get_tools_route,get_tool_route,get_marcas_route ,create_tool_route,update_tool_route,delete_tool_route
 from .transbank.routes import init_transaction,transaction_return
 from .suscription.routes import suscribe_route
 from .users.routes import create_user_route
