@@ -1,130 +1,107 @@
 <template>
-  <form
-    @submit.prevent="enviarFormulario"
-    class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow"
-  >
-    <h2 class="text-lg font-bold mb-4">
-      {{ props.herramienta ? "Editar herramienta" : "Agregar herramienta" }}
-    </h2>
+  <form @submit.prevent="enviarFormulario" class="form-container">
 
     <!-- Nombre -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium">Nombre</label>
+    <div class="form-group">
+      <label>Nombre</label>
       <input
-        v-model="form.NOMBRE"
+        v-model="form.nombre"
         required
-        class="input"
-        :class="{ 'border-yellow-500': cambio('nombre') }"
+        class="form-input"
+        :class="{ changed: cambio('nombre') }"
       />
-      <p v-if="cambio('nombre')" class="text-xs text-gray-500 mt-1">
-        Nombre anterior:
-        <span class="italic">{{ props.herramienta.NOMBRE }}</span>
+      <p v-if="cambio('nombre')" class="form-note">
+        Nombre anterior: <span class="italic">{{ props.herramienta.NOMBRE }}</span>
       </p>
     </div>
 
     <!-- Valor -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium">Valor (CLP)</label>
+    <div class="form-group">
+      <label>Valor (CLP)</label>
       <input
-        v-model.number="form.VALOR"
+        v-model.number="form.valor"
         type="number"
         required
-        class="input"
-        :class="{ 'border-yellow-500': cambio('valor') }"
+        class="form-input"
+        :class="{ changed: cambio('valor') }"
       />
-      <p v-if="cambio('valor')" class="text-xs text-gray-500 mt-1">
-        Valor anterior:
-        <span class="line-through text-red-500">{{
-          props.herramienta.VALOR
-        }}</span>
+      <p v-if="cambio('valor')" class="form-note">
+        Valor anterior: <span class="line-through">{{ props.herramienta.VALOR }}</span>
       </p>
     </div>
 
     <!-- Cantidad -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium">Cantidad</label>
+    <div class="form-group">
+      <label>Cantidad</label>
       <input
-        v-model.number="form.CANTIDAD"
+        v-model.number="form.cantidad"
         type="number"
         required
-        class="input"
-        :class="{ 'border-yellow-500': cambio('cantidad') }"
+        class="form-input"
+        :class="{ changed: cambio('cantidad') }"
       />
-      <p v-if="cambio('cantidad')" class="text-xs text-gray-500 mt-1">
-        Cantidad anterior:
-        <span class="text-red-500">{{ props.herramienta.CANTIDAD }}</span>
+      <p v-if="cambio('cantidad')" class="form-note">
+        Cantidad anterior: <span class="highlight">{{ props.herramienta.CANTIDAD }}</span>
       </p>
     </div>
 
     <!-- Categoría -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium">Categoría</label>
+    <div class="form-group">
+      <label>Categoría</label>
       <select
-        v-model.number="form.ID_CATEGORIA"
+        v-model.number="form.id_categoria"
         required
-        class="input"
-        :class="{ 'border-yellow-500': cambio('id_categoria') }"
+        class="form-input"
+        :class="{ changed: cambio('id_categoria') }"
       >
-        <option
-          v-for="cat in categorias"
-          :key="cat.ID_CATEGORIA"
-          :value="cat.ID_CATEGORIA"
-        >
+        <option v-for="cat in categorias" :key="cat.ID_CATEGORIA" :value="cat.ID_CATEGORIA">
           {{ cat.CATEGORIA }}
         </option>
       </select>
-      <p v-if="cambio('id_categoria')" class="text-xs text-gray-500 mt-1">
-        Categoría anterior:
-        {{ obtenerNombreCategoria(props.herramienta.ID_CATEGORIA) }}
+      <p v-if="cambio('id_categoria')" class="form-note">
+        Categoría anterior: {{ obtenerNombreCategoria(props.herramienta.ID_CATEGORIA) }}
       </p>
     </div>
 
     <!-- Marca -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium">Marca</label>
+    <div class="form-group">
+      <label>Marca</label>
       <select
-        v-model.number="form.ID_MARCA"
+        v-model.number="form.id_marca"
         required
-        class="input"
-        :class="{ 'border-yellow-500': cambio('id_marca') }"
+        class="form-input"
+        :class="{ changed: cambio('id_marca') }"
       >
         <option v-for="m in marcas" :key="m.ID_MARCA" :value="m.ID_MARCA">
           {{ m.MARCA }}
         </option>
       </select>
-      <p v-if="cambio('id_marca')" class="text-xs text-gray-500 mt-1">
+      <p v-if="cambio('id_marca')" class="form-note">
         Marca anterior: {{ obtenerNombreMarca(props.herramienta.ID_MARCA) }}
       </p>
     </div>
 
     <!-- Imagen -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium">Imagen (URL)</label>
+    <div class="form-group">
+      <label>Imagen (URL)</label>
       <input
         v-model="form.imagen"
         type="text"
         required
-        class="input"
-        :class="{ 'border-yellow-500': cambio('imagen') }"
+        class="form-input"
+        :class="{ changed: cambio('imagen') }"
       />
-      <p v-if="cambio('imagen')" class="text-xs text-gray-500 mt-1">
+      <p v-if="cambio('imagen')" class="form-note">
         URL anterior: <span class="italic">{{ props.herramienta.imagen }}</span>
       </p>
     </div>
 
     <!-- Botones -->
-    <div class="flex justify-end gap-3 mt-6">
-      <button
-        type="button"
-        @click="$emit('cancelar')"
-        class="btn bg-gray-300 hover:bg-gray-400"
-      >
+    <div class="form-actions">
+      <button type="button" @click="$emit('cancelar')" class="btn cancel">
         Cancelar
       </button>
-      <button
-        type="submit"
-        class="btn bg-blue-600 text-white hover:bg-blue-700"
-      >
+      <button type="submit" class="btn save">
         Guardar
       </button>
     </div>
@@ -136,7 +113,7 @@ import { reactive, onMounted } from "vue";
 import axios from "axios";
 
 const props = defineProps({
-  herramienta: Object, // puede ser null si es creación
+  herramienta: Object,
 });
 const emit = defineEmits(["guardar", "cancelar"]);
 
@@ -161,27 +138,30 @@ const cargarDatos = async () => {
   marcas.push(...marcaRes.data.MARCAS);
 
   if (props.herramienta) {
-    Object.assign(form, props.herramienta);
+    form.nombre = props.herramienta.NOMBRE;
+    form.valor = props.herramienta.VALOR;
+    form.cantidad = props.herramienta.CANTIDAD;
+    form.imagen = props.herramienta.imagen;
+    form.id_categoria = props.herramienta.ID_CATEGORIA;
+    form.id_marca = props.herramienta.ID_MARCA;
   }
 };
 
 const cambio = (campo) => {
-  return props.herramienta && form[campo] !== props.herramienta[campo];
+  if (!props.herramienta) return false;
+  return form[campo] !== props.herramienta[campo.toUpperCase()];
 };
 
 const enviarFormulario = async () => {
   try {
     if (props.herramienta) {
-      // Editar
       await axios.put(
         `http://localhost:5000/tools/${props.herramienta.ID_HERRAMIENTA}`,
         form
       );
     } else {
-      // Crear
       await axios.post("http://localhost:5000/tools/", form);
     }
-
     emit("guardar");
   } catch (error) {
     alert("Error al guardar: " + error.message);
@@ -204,10 +184,94 @@ const obtenerNombreCategoria = (id) => {
 </script>
 
 <style scoped>
-.input {
-  @apply w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400;
+.form-container {
+  background-color: #fff;
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  border: 1px solid #ddd;
 }
+
+.form-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  border-color: #3498db;
+}
+
+.changed {
+  border-color: #f1c40f;
+  background-color: #fff9db;
+}
+
+.form-note {
+  margin-top: 0.4rem;
+  font-size: 13px;
+  color: #666;
+}
+
+.highlight {
+  color: #c0392b;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
 .btn {
-  @apply px-4 py-2 rounded font-semibold;
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn.cancel {
+  background-color: #bdc3c7;
+  color: #2c3e50;
+}
+
+.btn.cancel:hover {
+  background-color: #95a5a6;
+}
+
+.btn.save {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.btn.save:hover {
+  background-color: #27ae60;
 }
 </style>
