@@ -1,6 +1,5 @@
 <template>
   <form @submit.prevent="enviarFormulario" class="form-container">
-
     <!-- Nombre -->
     <div class="form-group">
       <label>Nombre</label>
@@ -11,7 +10,8 @@
         :class="{ changed: cambio('nombre') }"
       />
       <p v-if="cambio('nombre')" class="form-note">
-        Nombre anterior: <span class="italic">{{ props.herramienta.NOMBRE }}</span>
+        Nombre anterior:
+        <span class="italic">{{ props.herramienta.NOMBRE }}</span>
       </p>
     </div>
 
@@ -26,7 +26,8 @@
         :class="{ changed: cambio('valor') }"
       />
       <p v-if="cambio('valor')" class="form-note">
-        Valor anterior: <span class="line-through">{{ props.herramienta.VALOR }}</span>
+        Valor anterior:
+        <span class="line-through">{{ props.herramienta.VALOR }}</span>
       </p>
     </div>
 
@@ -41,7 +42,8 @@
         :class="{ changed: cambio('cantidad') }"
       />
       <p v-if="cambio('cantidad')" class="form-note">
-        Cantidad anterior: <span class="highlight">{{ props.herramienta.CANTIDAD }}</span>
+        Cantidad anterior:
+        <span class="highlight">{{ props.herramienta.CANTIDAD }}</span>
       </p>
     </div>
 
@@ -54,12 +56,17 @@
         class="form-input"
         :class="{ changed: cambio('id_categoria') }"
       >
-        <option v-for="cat in categorias" :key="cat.ID_CATEGORIA" :value="cat.ID_CATEGORIA">
+        <option
+          v-for="cat in categorias"
+          :key="cat.ID_CATEGORIA"
+          :value="cat.ID_CATEGORIA"
+        >
           {{ cat.CATEGORIA }}
         </option>
       </select>
       <p v-if="cambio('id_categoria')" class="form-note">
-        Categoría anterior: {{ obtenerNombreCategoria(props.herramienta.ID_CATEGORIA) }}
+        Categoría anterior:
+        {{ obtenerNombreCategoria(props.herramienta.ID_CATEGORIA) }}
       </p>
     </div>
 
@@ -92,7 +99,7 @@
         :class="{ changed: cambio('imagen') }"
       />
       <p v-if="cambio('imagen')" class="form-note">
-        URL anterior: <span class="italic">{{ props.herramienta.imagen }}</span>
+        URL anterior: <span class="italic">{{ props.herramienta.IMAGEN }}</span>
       </p>
     </div>
 
@@ -101,9 +108,7 @@
       <button type="button" @click="$emit('cancelar')" class="btn cancel">
         Cancelar
       </button>
-      <button type="submit" class="btn save">
-        Guardar
-      </button>
+      <button type="submit" class="btn save">Guardar</button>
     </div>
   </form>
 </template>
