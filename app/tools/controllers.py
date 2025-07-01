@@ -74,9 +74,9 @@ def create_tool(data):
 
         cursor.execute("""
             INSERT INTO herramientas (
-            id_herramienta, nombre, valor, imagen, cantidad, id_categoria, id_marca
+            nombre, valor, imagen, cantidad, id_categoria, id_marca
             ) VALUES (
-              HERRAMIENTAS_SEQ.NEXTVAL, :nombre, :valor, :imagen, :cantidad, :id_categoria, :id_marca
+              :nombre, :valor, :imagen, :cantidad, :id_categoria, :id_marca
             )
             """, {
                 'nombre': data['nombre'],
@@ -89,6 +89,7 @@ def create_tool(data):
         connection.commit()
         return jsonify({"message": "Herramienta creada"}), 201
     except Exception as e:
+        print(e)
         return jsonify({"error": str(e)}), 500
     finally:
         cursor.close()
