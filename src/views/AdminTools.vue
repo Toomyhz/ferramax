@@ -2,7 +2,11 @@
   <div class="admin-container">
     <h1 class="admin-title">Administrar Herramientas</h1>
 
-    <button class="btn btn-success" @click="mostrarFormulario = true">
+    <button
+      v-if="!mostrarFormulario"
+      class="btn btn-success"
+      @click="mostrarFormulario = true"
+    >
       + Nueva herramienta
     </button>
 

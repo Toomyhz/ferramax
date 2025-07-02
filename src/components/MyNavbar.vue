@@ -291,18 +291,17 @@ nav {
   height: 100%;
   list-style-type: none;
   flex-wrap: wrap;
+  gap: 10px;
 }
 .navbar-1 li {
-  padding: 0;
-  margin: 0;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 150px;
+  min-width: 100px;
 }
 .navbar-1 li a {
-  padding: 0;
+  padding: 10px;
   margin: 0;
   height: 100%;
   width: 100%;

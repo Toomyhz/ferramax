@@ -1,66 +1,37 @@
 <template>
   <div class="login-view">
-    <div class="container-xl">
+    <div class="container">
       <h1>Inicio de sesión</h1>
-      <div class="login-container">
-        <div class="section login-data">
-          <strong class="block-title">Clientes registrados</strong>
-          <div>
-            <p>
-              Si ya tienes una cuenta, inicia sesión para acceder a tus datos y
-              realizar compras de manera rápida y sencilla.
-            </p>
-            <form @submit="login">
-              <fieldset>
-                <strong>Correo electrónico</strong>
-                <input
-                  v-model="email"
-                  type="email"
-                  placeholder="Correo electrónico"
-                  class="form-control"
-                  required
-                />
-              </fieldset>
+      <form @submit="login">
+        <fieldset>
+          <label>Correo electrónico</label>
+          <input
+            v-model="email"
+            type="email"
+            placeholder="Correo electrónico"
+            required
+          />
+        </fieldset>
+        <fieldset>
+          <label>Contraseña</label>
+          <input
+            v-model="contrasena"
+            id="password-field"
+            type="password"
+            placeholder="Contraseña"
+            required
+          />
+        </fieldset>
 
-              <fieldset>
-                <strong>Contraseña</strong>
-                <input
-                  v-model="contrasena"
-                  id="password-field"
-                  type="password"
-                  placeholder="Contraseña"
-                  class="form-control"
-                  required
-                />
-              </fieldset>
-
-              <fieldset class="checkbox-fieldset">
-                <input
-                  type="checkbox"
-                  id="show-password"
-                  @change="showPassword"
-                />
-                <label for="show-password">Mostrar contraseña</label>
-              </fieldset>
-              <fieldset>
-                <button type="submit" class="btn btn-warning">
-                  Iniciar sesión
-                </button>
-              </fieldset>
-            </form>
-          </div>
-        </div>
-        <div class="section register">
-          <strong class="block-title">Clientes nuevos</strong>
-          <p>
-            Para disfrutar de todos los beneficios de Ferramax, como descuentos
-            exclusivos y acceso a productos únicos, regístrate ahora.
-          </p>
-          <RouterLink :to="{ name: 'register' }" class="btn btn-register"
-            >Registrarse</RouterLink
-          >
-        </div>
-      </div>
+        <fieldset class="checkbox-fieldset">
+          <input type="checkbox" id="show-password" @change="showPassword" />
+          <label for="show-password">Mostrar contraseña</label>
+        </fieldset>
+        <fieldset>
+          <button type="submit" class="btn btn-warning">Iniciar sesión</button>
+        </fieldset>
+      </form>
+      <router-link to="/register">Crea tu cuenta aquí</router-link>
     </div>
   </div>
 </template>
@@ -123,15 +94,15 @@ async function login(e) {
 .login-view {
   display: flex;
   justify-content: center;
-  padding: 3rem 1rem;
+  align-items: center;
   background-color: #f4f4f4;
-  min-height: 100vh;
+  padding: 0 1rem;
   font-family: "Segoe UI", sans-serif;
 }
 
-.container-xl {
-  max-width: 900px;
+.container {
   width: 100%;
+  max-width: 500px;
   background-color: white;
   padding: 2rem;
   border-radius: 10px;
@@ -141,126 +112,91 @@ async function login(e) {
 h1 {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 2rem;
   color: #2c3e50;
   text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-.login-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.section {
-  flex: 1;
-  min-width: 300px;
+form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
-.block-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-
-.login-data {
-  border: 1px solid #ddd;
-  padding: 1.5rem;
-  border-radius: 8px;
-  background-color: #fafafa;
-}
-
-.login-data p {
-  font-size: 14px;
-  color: #555;
-}
-
-.register {
-  background-color: #25252e;
-  color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
+fieldset {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 0.4rem;
 }
 
-.register p {
-  font-size: 14px;
-  color: #ccc;
-  margin: 1rem 0;
-}
-
-form fieldset {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  margin-bottom: 1rem;
-}
-
-form strong {
+label {
+  font-weight: 600;
   font-size: 14px;
   color: #333;
 }
 
-.form-control {
-  padding: 0.5rem 0.75rem;
+input {
+  padding: 0.6rem 0.75rem;
   font-size: 14px;
-  border: 1px solid #ccc;
   border-radius: 6px;
+  border: 1px solid #ccc;
   outline: none;
   transition: border-color 0.3s;
 }
 
-.form-control:focus {
+input:focus {
   border-color: #3498db;
 }
 
-.checkbox-fieldset {
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  gap: 0.5rem;
-  margin-top: -0.5rem;
-}
-
 .btn {
-  padding: 0.6rem 1.2rem;
-  font-weight: 600;
+  padding: 0.7rem 1.2rem;
+  font-weight: bold;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
-.btn-warning {
-  background-color: #f1c40f;
+.btn-primary {
+  background-color: #ffd333;
   color: #2c3e50;
 }
 
-.btn-warning:hover {
-  background-color: #e1b70f;
+.btn-primary:hover {
+  background-color: #f1c40f;
 }
 
-.btn-register {
-  background-color: transparent;
-  color: white;
-  border: 1px solid #ffd333;
-  align-self: flex-start;
-  padding: 0.6rem 1.2rem;
-  font-weight: bold;
-  border-radius: 6px;
-  transition: all 0.3s ease-in-out;
+.error,
+.success {
+  margin-top: 0.5rem;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+.success {
+  color: #27ae60;
+}
+
+a {
+  display: block;
+  margin-top: 1.5rem;
   text-align: center;
+  color: #3498db;
+  text-decoration: none;
+  font-size: 14px;
 }
 
-.btn-register:hover {
-  background-color: #ffd333;
-  color: black;
+a:hover {
+  text-decoration: underline;
+}
+.checkbox-fieldset {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 </style>

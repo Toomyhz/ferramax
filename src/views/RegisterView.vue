@@ -62,7 +62,6 @@ async function registrarUsuario() {
   justify-content: center;
   align-items: center;
   background-color: #f4f4f4;
-  min-height: 90vh;
   padding: 0 1rem;
   font-family: "Segoe UI", sans-serif;
 }

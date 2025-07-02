@@ -5,7 +5,13 @@
         :to="{ name: 'store', query: { brands: img.id_marca } }"
         class="carousel-img-wrapper"
       >
-        <img :src="img.src" :alt="img.alt" class="carousel-img" />
+        <img
+          :src="img.src"
+          :alt="img.alt"
+          class="carousel-img"
+          width="1400"
+          height="400"
+        />
       </RouterLink>
     </Slide>
     <template #addons>
@@ -77,7 +83,14 @@ import { RouterLink } from "vue-router";
 import { onMounted, reactive } from "vue";
 import { getBrands } from "@/api/brands";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import { defineProps } from "vue";
 import "vue3-carousel/carousel.css";
+
+defineProps({
+  moneda: {
+    type: String,
+  },
+});
 
 const brands = reactive([]);
 
@@ -93,22 +106,22 @@ const carouselConfig = {
 
 const images = [
   {
-    src: "/src/assets/images/Bauker_herramientas.jpg",
+    src: "/images/a.jpg",
     id_marca: 2,
     alt: "Bauker herramientas",
   },
   {
-    src: "/src/assets/images/Bosch_herramientas.jpg",
+    src: "/images/b.jpg",
     id_marca: 3,
     alt: "Bosch herramientas",
   },
   {
-    src: "/src/assets/images/Makita_herramientas.jpg",
+    src: "/images/Makita_herramientas.jpg",
     id_marca: 6,
     alt: "Makita herramientas",
   },
   {
-    src: "/src/assets/images/Stanley_herramientas.jpg",
+    src: "/images/Stanley_herramientas.jpg",
     id_marca: 8,
     alt: "Stanley herramientas",
   },
@@ -173,8 +186,10 @@ onMounted(async () => {
 }
 
 .carousel {
-  height: 330px;
-  max-width: 100%;
+  width: 1400px;
+  height: 400px;
+  margin: 0 auto;
+  overflow: hidden;
   --vc-nav-background: rgba(255, 255, 255, 0.7);
   --vc-nav-border-radius: 100%;
 }
@@ -182,6 +197,8 @@ onMounted(async () => {
 .carousel-img {
   width: 100%;
   height: 100%;
+  object-fit: cover; /* ajusta el recorte si quieres */
+  image-rendering: crisp-edges; /* ayuda a mantener nitidez */
 }
 
 .carousel-img-wrapper {
