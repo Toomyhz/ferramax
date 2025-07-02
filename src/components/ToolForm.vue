@@ -1,6 +1,5 @@
 <template>
   <form @submit.prevent="enviarFormulario" class="form-container">
-    <!-- Nombre -->
     <div class="form-group">
       <label>Nombre</label>
       <input
@@ -15,7 +14,6 @@
       </p>
     </div>
 
-    <!-- Valor -->
     <div class="form-group">
       <label>Valor (CLP)</label>
       <input
@@ -31,7 +29,6 @@
       </p>
     </div>
 
-    <!-- Cantidad -->
     <div class="form-group">
       <label>Cantidad</label>
       <input
@@ -47,7 +44,6 @@
       </p>
     </div>
 
-    <!-- Categoría -->
     <div class="form-group">
       <label>Categoría</label>
       <select
@@ -70,7 +66,6 @@
       </p>
     </div>
 
-    <!-- Marca -->
     <div class="form-group">
       <label>Marca</label>
       <select
@@ -88,7 +83,6 @@
       </p>
     </div>
 
-    <!-- Imagen -->
     <div class="form-group">
       <label>Imagen (URL)</label>
       <input
@@ -100,10 +94,14 @@
       />
       <p v-if="cambio('imagen')" class="form-note">
         URL anterior: <span class="italic">{{ props.herramienta.IMAGEN }}</span>
+        <img
+          :src="props.herramienta.IMAGEN"
+          alt="Imagen anterior"
+          class="imagen-previa"
+        />
       </p>
     </div>
 
-    <!-- Botones -->
     <div class="form-actions">
       <button type="button" @click="$emit('cancelar')" class="btn cancel">
         Cancelar
@@ -279,4 +277,11 @@ const obtenerNombreCategoria = (id) => {
 .btn.save:hover {
   background-color: #27ae60;
 }
+
+.imagen-previa {
+  display: block;
+  margin: auto;
+  max-width: 300px;
+}
+
 </style>
