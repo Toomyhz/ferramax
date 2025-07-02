@@ -4,72 +4,83 @@
     <div v-if="carrito.length === 0">El carrito está vacío.</div>
     <ul v-else>
       <li v-for="producto in carrito" :key="producto.ID_HERRAMIENTA">
-        <img :src="producto.IMAGEN" alt="Imagen del producto" class="producto-imagen" />
+        <img
+          :src="producto.IMAGEN"
+          alt="Imagen del producto"
+          class="producto-imagen"
+        />
         <div class="producto-info">
           <span class="producto-nombre">{{ producto.NOMBRE }}</span>
 
-          <span class="producto-precio" v-if="moneda == 'CLP'">{{ formatearPrecio(producto.VALOR * producto.cantidad) }}</span>
-          <span class="producto-precio" v-if="moneda == 'USD'">${{ Math.round(producto.VALOR_EN_DOLARES * producto.cantidad * 100)/100 }}</span>
+          <span class="producto-precio" v-if="props.moneda == 'CLP'">{{
+            formatearPrecio(producto.VALOR * producto.cantidad)
+          }}</span>
+          <span class="producto-precio" v-if="moneda == 'USD'"
+            >${{
+              Math.round(producto.VALOR_EN_DOLARES * producto.cantidad * 100) /
+              100
+            }}</span
+          >
         </div>
         <div class="botones">
           <span class="cantidad">{{ producto.cantidad }} unidades</span>
-          <button @click="borrarItems(producto.ID_HERRAMIENTA)" class="botones-manejo">-</button>
-          <button @click="removerDelCarrito(producto.ID_HERRAMIENTA)">Remover</button>
-          <button @click="agregarProducto(producto)" class="botones-manejo">+</button>
+          <button
+            @click="borrarItems(producto.ID_HERRAMIENTA)"
+            class="botones-manejo"
+          >
+            -
+          </button>
+          <button @click="removerDelCarrito(producto.ID_HERRAMIENTA)">
+            Remover
+          </button>
+          <button @click="agregarProducto(producto)" class="botones-manejo">
+            +
+          </button>
         </div>
       </li>
     </ul>
     <div v-if="carrito.length > 0" class="total-carrito">
-      <span v-if="moneda == 'CLP'">Total: CLP $ {{ formatearPrecio(totalCarrito) }}</span>
-      <span v-if="moneda == 'USD'">Total: USD $ {{ totalCarritoDolares }}</span>
+      <span v-if="moneda == 'CLP'"
+        >Total: CLP $ {{ formatearPrecio(totalCarrito) }}</span
+      >
+      <span v-if="moneda == 'USD'"
+        >Total: USD $ {{ Math.round(totalCarritoDolares * 100) / 100 }}</span
+      >
     </div>
-    <button v-if="carrito.length > 0" @click="vaciarCarrito">Vaciar Carrito</button>
+    <button v-if="carrito.length > 0" @click="vaciarCarrito">
+      Vaciar Carrito
+    </button>
     <PagoTransbank v-if="carrito.length > 0">Pagar</PagoTransbank>
   </div>
 </template>
+<script setup>
+import { defineProps, computed } from "vue";
+import PagoTransbank from "./PagoTransbank.vue";
+import { useStore } from "vuex";
+const store = useStore();
+const props = defineProps({
+  moneda: {
+    type: String,
+  },
+});
 
-<script>
-import PagoTransbank from './PagoTransbank.vue';
+const carrito = computed(() => store.getters.carrito);
+const totalCarrito = computed(() => store.getters.totalCarrito);
+const totalCarritoDolares = computed(() => store.getters.totalCarritoDolares);
+const formatearPrecio = computed(() => store.getters.formatearPrecio);
 
-export default {
-  props: {
-    moneda: {
-      type: String
-    }
-  },
-  components: {
-    PagoTransbank
-  },
-  computed: {
-    carrito() {
-      return this.$store.getters.carrito;
-    },
-    totalCarrito() {
-      return this.$store.getters.totalCarrito;
-    },
-    totalCarritoDolares() {
-      return this.$store.getters.totalCarritoDolares;
-    },
-    formatearPrecio() {
-      return this.$store.getters.formatearPrecio;
-    }
-  },
-  methods: {
-    borrarItems(productoId) {
-      this.$store.dispatch('borrarItems', productoId);
-      console.log(this.moneda)
-    },
-    removerDelCarrito(productoId) {
-      this.$store.dispatch('removerDelCarrito', productoId);
-    },
-    vaciarCarrito() {
-      this.$store.dispatch('vaciarCarrito');
-    },
-    agregarProducto(producto) {
-      this.$store.dispatch('agregarAlCarrito', producto)
-    }
-  }
-};
+function borrarItems(productoId) {
+  store.dispatch("borrarItems", productoId);
+}
+function removerDelCarrito(productoId) {
+  store.dispatch("removerDelCarrito", productoId);
+}
+function vaciarCarrito() {
+  store.dispatch("vaciarCarrito");
+}
+function agregarProducto(producto) {
+  store.dispatch("agregarAlCarrito", producto);
+}
 </script>
 
 <style scoped>
@@ -84,7 +95,7 @@ div {
 h2 {
   text-align: center;
   color: #333;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   margin-bottom: 20px;
 }
 
@@ -154,13 +165,15 @@ button {
   border-radius: 3px;
   padding: 5px 10px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
   font-size: 0.9em;
   min-width: 80px;
   text-align: center;
 }
 
-.botones-manejo{
+.botones-manejo {
   padding: 4px 7px;
   min-width: 30px;
   min-height: 31px;
@@ -169,7 +182,7 @@ button {
 
 button:hover {
   background-color: #ffd333;
-  color: rgb(37, 37, 46); 
+  color: rgb(37, 37, 46);
 }
 
 button:focus {

@@ -92,14 +92,11 @@
         class="form-input"
         :class="{ changed: cambio('imagen') }"
       />
-      <p v-if="cambio('imagen')" class="form-note">
-        URL anterior: <span class="italic">{{ props.herramienta.IMAGEN }}</span>
-        <img
-          :src="props.herramienta.IMAGEN"
-          alt="Imagen anterior"
-          class="imagen-previa"
-        />
-      </p>
+      <img
+        :src="props.herramienta.IMAGEN"
+        alt="Imagen anterior"
+        class="imagen-previa"
+      />
     </div>
 
     <div class="form-actions">
@@ -144,7 +141,7 @@ const cargarDatos = async () => {
     form.nombre = props.herramienta.NOMBRE;
     form.valor = props.herramienta.VALOR;
     form.cantidad = props.herramienta.CANTIDAD;
-    form.imagen = props.herramienta.imagen;
+    form.imagen = props.herramienta.IMAGEN;
     form.id_categoria = props.herramienta.ID_CATEGORIA;
     form.id_marca = props.herramienta.ID_MARCA;
   }
@@ -283,5 +280,4 @@ const obtenerNombreCategoria = (id) => {
   margin: auto;
   max-width: 300px;
 }
-
 </style>

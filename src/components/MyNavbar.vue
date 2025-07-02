@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="m-0 p-0">
     <div class="start">
       <div class="marca">
         <RouterLink :to="{ name: 'home' }">
@@ -18,8 +18,8 @@
         />
       </div>
       <div class="cambio">
-        <button id="btn-tipo-cambio" @click="cambiarCambio">
-          Tipo de cambio: {{ cambioActual }}
+        <button id="btn-tipo-cambio" @click="cambiarMoneda">
+          Tipo de cambio: {{ props.cambioActual }}
         </button>
       </div>
     </div>
@@ -100,107 +100,98 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { RouterLink } from "vue-router";
-import { computed } from "vue";
+import { RouterLink, useRoute, useRouter } from "vue-router";
+import getCategories from "@/api/categories";
+import Swal from "sweetalert2";
+import { defineProps, defineEmits, computed, ref, onMounted, watch } from "vue";
+
+const emit = defineEmits(["cambiarMoneda"]);
+
+const props = defineProps({
+  cambioActual: {
+    type: String,
+    default: "USD",
+  },
+});
+
+const route = useRoute();
+const router = useRouter();
 const store = useStore();
 const estaLogeado = computed(() => store.getters.estaLogeado);
+const text = ref(route.query.text || "");
+const categorias = ref([]);
+const carrito = computed(() => store.getters.carrito);
+
+const isActive = (routeName) => {
+  return route.name === routeName;
+};
+
+watch(
+  () => route.query,
+  (query) => {
+    text.value = query.text || "";
+  },
+  { immediate: true }
+);
+
+const fetchData = async () => {
+  try {
+    categorias.value = await getCategories();
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+  }
+};
+
+const swalCambio = (moneda) => {
+  Swal.fire({
+    text: `Moneda cambiada a: ${moneda}`,
+    width: "300px",
+    position: "top",
+    timer: 2000,
+    timerProgressBar: true,
+    showConfirmButton: false,
+    toast: true,
+    icon: "info",
+  });
+};
+function cambiarMoneda() {
+  if (props.cambioActual === "USD") {
+    // emit event in <script setup> using defineEmits
+    emit("cambiarMoneda", "CLP");
+    swalCambio("CLP");
+  } else {
+    emit("cambiarMoneda", "USD");
+    swalCambio("USD");
+  }
+}
+
+function navegar() {
+  if (text.value.trim() !== "") {
+    router.push({ name: "store", query: { text: text.value } });
+  } else {
+    router.push({ name: "store" });
+  }
+}
 
 function cerrarSesion() {
   store.commit("logoutUser");
-  this.$router.push({ name: "home" });
+  Swal.fire({
+    icon: "success",
+    title: "¡Hasta luego!",
+    text: `Sesión cerrada correctamente`,
+    timer: 2000,
+    showConfirmButton: false,
+    toast: true,
+    position: "top-end",
+  });
+  router.push({ name: "home" });
 }
-</script>
-
-<script>
-import { getCategories } from "@/api/categories";
-import Swal from "sweetalert2";
-
-export default {
-  data() {
-    return {
-      categorias: [],
-      text: "",
-    };
-  },
-  props: {
-    cambioActual: {
-      type: String,
-    },
-  },
-  watch: {
-    "$route.query": {
-      handler() {
-        this.text = this.$route.query.text;
-      },
-      immediate: true,
-    },
-  },
-  created() {
-    this.fetchData();
-    this.text = this.$route.query.text;
-  },
-  computed: {
-    isActive() {
-      return (routeName) => {
-        return this.$route.name === routeName;
-      };
-    },
-    carrito() {
-      return this.$store.getters.carrito;
-    },
-  },
-  methods: {
-    async fetchData() {
-      try {
-        this.categorias = await getCategories();
-        console.log("testeo");
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    },
-    navegar() {
-      if (this.text.trim() !== "") {
-        this.$router.push({ name: "store", query: { text: this.text } });
-      } else {
-        this.$router.push({ name: "store" });
-      }
-    },
-    cambiarCambio() {
-      if (this.cambioActual === "USD") {
-        this.$emit("cambiarMoneda", "CLP");
-        Swal.fire({
-          text: "Moneda cambiada a: CLP",
-          width: "300px",
-          position: "top",
-          timer: 2000,
-          timerProgressBar: true,
-          showConfirmButton: false,
-          toast: true,
-          icon: "info",
-        });
-      } else {
-        this.$emit("cambiarMoneda", "USD");
-        Swal.fire({
-          text: "Moneda cambiada a: USD",
-          width: "300px",
-          position: "top",
-          timer: 2000,
-          timerProgressBar: true,
-          showConfirmButton: false,
-          toast: true,
-          icon: "info",
-        });
-      }
-    },
-  },
-};
+onMounted(() => {
+  fetchData();
+});
 </script>
 
 <style scoped>
-header {
-  margin: 0;
-  padding: 0;
-}
 .start {
   height: 100px;
   padding: 0 50px;

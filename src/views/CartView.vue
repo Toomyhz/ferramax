@@ -1,19 +1,15 @@
 <template>
   <main>
-      <MyCart :moneda="moneda" />
+    <MyCart :moneda="moneda" />
   </main>
 </template>
 
-<script setup >
+<script setup>
 import MyCart from "@/components/MyCart.vue";
-</script>
-<script>
-export default {
-  props: {
-    moneda: {
-      type: String,
-    },
+import { defineProps } from "vue";
+defineProps({
+  moneda: {
+    type: String,
   },
-}
+});
 </script>
-

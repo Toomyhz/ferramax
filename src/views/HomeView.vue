@@ -22,36 +22,30 @@
         </ol>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <RouterLink
-            :to="{ name: 'store' }"
-            >
-            <img
-            class="d-block w-100 carousel-image"
-            src="../assets/images/Bauker_herramientas.png"
-            alt="First slide"
-            />
+            <RouterLink :to="{ name: 'store' }">
+              <img
+                class="d-block w-100 carousel-image"
+                src="../assets/images/Bauker_herramientas.png"
+                alt="First slide"
+              />
             </RouterLink>
           </div>
           <div class="carousel-item">
-            <RouterLink
-            :to="{ name: 'store' }"
-            >
-            <img
-            class="d-block w-100 carousel-image"
-            src="../assets/images/Bosch_herramientas.jpg"
-            alt="Second slide"
-            />
+            <RouterLink :to="{ name: 'store' }">
+              <img
+                class="d-block w-100 carousel-image"
+                src="../assets/images/Bosch_herramientas.jpg"
+                alt="Second slide"
+              />
             </RouterLink>
           </div>
           <div class="carousel-item">
-            <RouterLink
-            :to="{ name: 'store' }"
-            >
-            <img
-            class="d-block w-100 carousel-image"
-            src="../assets/images/Makita_herramientas.jpg"
-            alt="Third slide"
-            />
+            <RouterLink :to="{ name: 'store' }">
+              <img
+                class="d-block w-100 carousel-image"
+                src="../assets/images/Makita_herramientas.jpg"
+                alt="Third slide"
+              />
             </RouterLink>
           </div>
         </div>
@@ -78,12 +72,14 @@
         <div class="suscribe">
           <h3>Suscríbete para recibir todas nuestras ofertas</h3>
           <RouterLink :to="{ name: 'suscribir' }" class="btn btn-warning"
-            >Suscribir</RouterLink>
+            >Suscribir</RouterLink
+          >
         </div>
         <div>
           <h3>Inicia sesión para recibir un descuento del 15%</h3>
           <RouterLink :to="{ name: 'login' }" class="btn btn-warning"
-            >Iniciar sesión</RouterLink>
+            >Iniciar sesión</RouterLink
+          >
         </div>
       </div>
     </section>
@@ -121,34 +117,17 @@
 
 <script setup>
 import { RouterLink } from "vue-router";
-</script>
-
-<script>
 import { getBrands } from "@/api/brands";
+import { onMounted, ref } from "vue";
+const brands = ref([]);
 
-export default {
-  data() {
-    return {
-      brands: [],
-    };
-  },
-  mounted() {
-    this.fetchMarcaData();
-  },
-  methods: {
-    async fetchMarcaData() {
-      try {
-        this.brands = await getBrands()
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    },
-  },
-};
+onMounted(async () => {
+  brands.value = await getBrands();
+});
 </script>
 
 <style scoped>
-.home{
+.home {
   width: 100%;
   display: flex;
   flex-direction: column;

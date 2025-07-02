@@ -68,7 +68,10 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import { useStore } from "vuex";
+import Swal from "sweetalert2";
 
+const store = useStore();
 const email = ref("");
 const contrasena = ref("");
 const router = useRouter();
@@ -90,13 +93,25 @@ async function login(e) {
 
     const { token, email: correo, user_id } = response.data;
 
-    // Guardar token y datos en localStorage
-    localStorage.setItem("token", token);
-    localStorage.setItem("email", correo);
-    localStorage.setItem("user_id", user_id);
+    // ✅ Notificar al store (esto sí activa la reactividad)
+    store.commit("setUser", {
+      token,
+      email: correo,
+      user_id,
+    });
 
-    // Redirigir
-    router.push("/");
+    Swal.fire({
+      icon: "success",
+      title: "¡Bienvenido!",
+      text: `Has iniciado sesión como ${correo}`,
+      timer: 2000,
+      showConfirmButton: false,
+      toast: true,
+      position: "top-end",
+    });
+
+    // ✅ Redirigir (esto ayuda a que la navbar se reevalúe también)
+    router.push({ name: "home" });
   } catch (err) {
     alert("Correo o contraseña inválidos.");
     console.error("Error de login", err);
