@@ -7,77 +7,67 @@
       <h1 v-else>Productos</h1>
       <ProductList
         :productos="productosFiltrados"
-        :moneda="moneda"
+        :moneda="props.moneda"
         @agregarCarrito="agregarAlCarrito"
       />
     </div>
   </div>
 </template>
-
-<script>
-import { getTools } from "@/api/tools";
+<script setup>
+import { ref, computed, watch, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 import ProductList from "@/components/ProductList.vue";
-import { mapActions, mapGetters } from "vuex";
+import { getTools } from "@/api/tools";
 
-export default {
-  components: {
-    ProductList,
+const props = defineProps({
+  moneda: String,
+});
+
+const route = useRoute();
+const store = useStore();
+
+const tools = ref([]);
+const categoria = ref(route.query.categoria || "");
+const text = ref(route.query.text || "");
+const brandId = ref(route.query.brands || null);
+
+const productosFiltrados = computed(() => {
+  if (brandId.value) {
+    return tools.value.filter((tool) => tool.ID_MARCA == brandId.value);
+  } else if (categoria.value) {
+    return tools.value.filter((tool) => tool.CATEGORIA === categoria.value);
+  } else if (text.value) {
+    return tools.value.filter((tool) =>
+      tool.NOMBRE.toUpperCase().includes(text.value.toUpperCase())
+    );
+  } else {
+    return tools.value;
+  }
+});
+
+const fetchData = async () => {
+  try {
+    tools.value = await getTools();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+onMounted(fetchData);
+
+watch(
+  () => route.query,
+  (query) => {
+    categoria.value = query.categoria;
+    text.value = query.text;
+    brandId.value = query.brands;
   },
-  props: {
-    moneda: {
-      type: String,
-    },
-  },
-  data() {
-    return {
-      tools: [],
-      categoria: "",
-      text: "",
-      brandId: null,
-    };
-  },
-  computed: {
-    productosFiltrados() {
-      if (this.brandId) {
-        return this.tools.filter((tool) => tool.ID_MARCA == this.brandId);
-      } else if (this.categoria) {
-        return this.tools.filter((tool) => tool.CATEGORIA === this.categoria);
-      } else if (this.text) {
-        return this.tools.filter((tool) =>
-          tool.NOMBRE.toUpperCase().includes(this.text.toUpperCase())
-        );
-      } else {
-        return this.tools;
-      }
-    },
-    ...mapGetters(["carrito"]),
-  },
-  watch: {
-    "$route.query": {
-      handler() {
-        this.categoria = this.$route.query.categoria;
-        this.text = this.$route.query.text;
-        this.brandId = this.$route.query.brands;
-      },
-      immediate: true,
-    },
-  },
-  created() {
-    this.fetchData();
-    this.categoria = this.$route.query.categoria;
-    this.text = this.$route.query.text;
-    this.brandId = this.$route.query.brands;
-  },
-  methods: {
-    async fetchData() {
-      try {
-        this.tools = await getTools();
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    },
-    ...mapActions(["agregarAlCarrito"]),
-  },
+  { immediate: true }
+);
+
+const agregarAlCarrito = (producto) => {
+  store.dispatch("agregarAlCarrito", producto);
 };
 </script>
 

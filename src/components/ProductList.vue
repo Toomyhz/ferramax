@@ -12,6 +12,8 @@
         :src="producto.IMAGEN"
         alt="Imagen del Producto"
         class="product-img"
+        height="200px"
+        width="200px"
       />
       <p>{{ producto.CATEGORIA }}</p>
       <p
@@ -80,7 +82,8 @@ function agregarAlCarrito(producto) {
 
 .product-img {
   width: 100%;
-  height: auto;
+  height: 230px; /* Fijo y consistente */
+  object-fit: cover; /* Mantiene proporción, recorta si es necesario */
 }
 
 .product-card h3 {
