@@ -13,6 +13,8 @@
         :src="producto.IMAGEN"
         alt="Imagen del Producto"
         class="product-img"
+        height="200px"
+        width="200px"
       />
 
       <p class="categoria">{{ producto.CATEGORIA }}</p>

@@ -2,7 +2,6 @@
   <div class="edit-tool-page">
     <div class="edit-tool-card">
       <h1 class="edit-title">Editar Herramienta</h1>
-
       <div v-if="loading" class="edit-status loading">
         ⏳ Cargando herramienta...
       </div>
@@ -81,7 +80,7 @@ onMounted(() => {
   font-size: 24px;
   font-weight: bold;
   color: #2c3e50;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
