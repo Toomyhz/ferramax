@@ -1,5 +1,7 @@
 from flask import request, make_response
-from .controllers import  get_all_tools, get_tool, get_all_categories,get_all_marcas, create_tool, update_tool, delete_tool
+from .controllers import (get_all_tools, get_tool, get_all_categories,
+                          get_all_marcas, get_marca,create_tool, update_tool, 
+                          delete_tool,get_marca)
 from app import app
 
 @app.route('/tools/', methods=['GET'])
@@ -19,6 +21,10 @@ def get_categories_route():
 @app.route('/marcas/', methods =['GET'])
 def get_marcas_route():
     return get_all_marcas()
+
+@app.route('/marcas/<id>', methods=['GET'])
+def get_marca_route(id):
+    return get_marca(id)
 
 @app.route('/tools/', methods=['POST'])
 def create_tool_route():
