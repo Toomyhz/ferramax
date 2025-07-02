@@ -8,7 +8,7 @@
         class="form-input"
         :class="{ changed: cambio('nombre') }"
       />
-      <p v-if="cambio('nombre')" class="form-note">
+      <p v-if="props.herramienta && cambio('nombre')" class="form-note">
         Nombre anterior:
         <span class="italic">{{ props.herramienta.NOMBRE }}</span>
       </p>
@@ -23,7 +23,7 @@
         class="form-input"
         :class="{ changed: cambio('valor') }"
       />
-      <p v-if="cambio('valor')" class="form-note">
+      <p v-if="props.herramienta && cambio('valor')" class="form-note">
         Valor anterior:
         <span class="line-through">{{ props.herramienta.VALOR }}</span>
       </p>
@@ -38,7 +38,7 @@
         class="form-input"
         :class="{ changed: cambio('cantidad') }"
       />
-      <p v-if="cambio('cantidad')" class="form-note">
+      <p v-if="props.herramienta && cambio('cantidad')" class="form-note">
         Cantidad anterior:
         <span class="highlight">{{ props.herramienta.CANTIDAD }}</span>
       </p>
@@ -60,7 +60,7 @@
           {{ cat.CATEGORIA }}
         </option>
       </select>
-      <p v-if="cambio('id_categoria')" class="form-note">
+      <p v-if="props.herramienta && cambio('id_categoria')" class="form-note">
         Categoría anterior:
         {{ obtenerNombreCategoria(props.herramienta.ID_CATEGORIA) }}
       </p>
@@ -78,7 +78,7 @@
           {{ m.MARCA }}
         </option>
       </select>
-      <p v-if="cambio('id_marca')" class="form-note">
+      <p v-if="props.herramienta && cambio('id_marca')" class="form-note">
         Marca anterior: {{ obtenerNombreMarca(props.herramienta.ID_MARCA) }}
       </p>
     </div>
@@ -92,11 +92,21 @@
         class="form-input"
         :class="{ changed: cambio('imagen') }"
       />
-      <img
-        :src="props.herramienta.IMAGEN"
-        alt="Imagen anterior"
-        class="imagen-previa"
-      />
+      <p v-if="props.herramienta && cambio('imagen')" class="form-note">
+        URL anterior: <span class="italic">{{ props.herramienta.IMAGEN }}</span>
+      </p>
+
+      <div
+        class="form-group"
+        v-if="props.herramienta && props.herramienta.IMAGEN"
+      >
+        <label>Imagen Anterior</label>
+        <img
+          :src="props.herramienta.IMAGEN"
+          alt="Imagen anterior"
+          class="imagen-previa"
+        />
+      </div>
     </div>
 
     <div class="form-actions">
@@ -113,7 +123,10 @@ import { reactive, onMounted } from "vue";
 import axios from "axios";
 
 const props = defineProps({
-  herramienta: Object,
+  herramienta: {
+    type: Object,
+    default: () => null,
+  },
 });
 const emit = defineEmits(["guardar", "cancelar"]);
 
@@ -138,12 +151,12 @@ const cargarDatos = async () => {
   marcas.push(...marcaRes.data.MARCAS);
 
   if (props.herramienta) {
-    form.nombre = props.herramienta.NOMBRE;
-    form.valor = props.herramienta.VALOR;
-    form.cantidad = props.herramienta.CANTIDAD;
-    form.imagen = props.herramienta.IMAGEN;
-    form.id_categoria = props.herramienta.ID_CATEGORIA;
-    form.id_marca = props.herramienta.ID_MARCA;
+    form.nombre = props.herramienta.NOMBRE || "";
+    form.valor = props.herramienta.VALOR || 0;
+    form.cantidad = props.herramienta.CANTIDAD || 1;
+    form.imagen = props.herramienta.IMAGEN || "";
+    form.id_categoria = props.herramienta.ID_CATEGORIA || null;
+    form.id_marca = props.herramienta.ID_MARCA || null;
   }
 };
 
@@ -154,7 +167,7 @@ const cambio = (campo) => {
 
 const enviarFormulario = async () => {
   try {
-    if (props.herramienta) {
+    if (props.herramienta && props.herramienta.ID_HERRAMIENTA) {
       await axios.put(
         `http://localhost:5000/tools/${props.herramienta.ID_HERRAMIENTA}`,
         form

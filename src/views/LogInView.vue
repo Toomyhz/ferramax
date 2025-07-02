@@ -121,74 +121,146 @@ async function login(e) {
 
 <style scoped>
 .login-view {
-  display: block;
-  margin: 0;
-  padding: 0%;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.container-xl {
+  max-width: 900px;
   width: 100%;
-  flex-direction: column;
-  align-items: center;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 h1 {
-  font-size: 2em;
-  color: #333;
-  text-align: left;
-  margin: 20px 0;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+  text-align: center;
 }
+
 .login-container {
   display: flex;
-  width: 100%;
-  flex-direction: row;
   justify-content: space-between;
-  text-align: center;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
+
 .section {
+  flex: 1;
+  min-width: 300px;
   display: flex;
-  padding: 20px;
   flex-direction: column;
-  width: 47%;
+  gap: 1.5rem;
 }
-.login-data {
-  border: 1px solid rgba(37, 37, 46, 0.34);
-  border-radius: 5px;
-  text-align: center;
-}
-.register {
-  height: 220px;
-  border-radius: 5px;
-  background-color: rgb(37, 37, 46);
-  text-align: center;
-  box-shadow: #333 0px 0px wspx;
-  color: white;
-}
+
 .block-title {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
+
+.login-data {
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.login-data p {
+  font-size: 14px;
+  color: #555;
+}
+
+.register {
+  background-color: #25252e;
+  color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.register p {
+  font-size: 14px;
+  color: #ccc;
+  margin: 1rem 0;
+}
+
+form fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+form strong {
+  font-size: 14px;
+  color: #333;
+}
+
+.form-control {
+  padding: 0.5rem 0.75rem;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #3498db;
+}
+
+.checkbox-fieldset {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  gap: 0.5rem;
+  margin-top: -0.5rem;
+}
+
+.btn {
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-warning {
+  background-color: #f1c40f;
+  color: #2c3e50;
+}
+
+.btn-warning:hover {
+  background-color: #e1b70f;
+}
+
 .btn-register {
-  width: 40%;
+  background-color: transparent;
   color: white;
   border: 1px solid #ffd333;
-  align-self: center;
+  align-self: flex-start;
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+  text-align: center;
 }
+
 .btn-register:hover {
   background-color: #ffd333;
   color: black;
-  transition: all 0.3s ease-in-out;
-}
-.checkbox-fieldset {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  text-align: center;
-}
-.checkbox-fieldset input[type="checkbox"] {
-  margin-right: 10px;
-}
-.checkbox-fieldset label {
-  margin: 0;
-  font-size: 0.9em;
-  color: #333;
-  align-self: center;
-  text-align: center;
 }
 </style>
