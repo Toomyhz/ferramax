@@ -29,11 +29,11 @@ export default {
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100vh; /* Toda la altura de la pantalla */
 }
 
 main.contenido {
-  flex: 1;
+  flex: 1; /* Ocupa todo el espacio disponible */
   overflow-y: auto;
   padding: 1rem; /* Opcional */
   background-color: #f4f4f4;
