@@ -19,19 +19,31 @@
     <table v-else class="admin-table">
       <thead>
         <tr>
+          <th>Imagen</th>
           <th>Nombre</th>
           <th>Precio</th>
           <th>Categoría</th>
+          <th>Marca</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="h in herramientas" :key="h.id_herramienta">
+          <td>
+            <img
+              :src="h.imagen"
+              alt="Imagen de herramienta"
+              style="max-width: 80px; max-height: 80px"
+            />
+          </td>
           <td>{{ h.nombre }}</td>
           <td>${{ h.valor }}</td>
           <td>{{ h.categoria }}</td>
+          <td>{{ h.marca }}</td>
           <td class="acciones">
-            <RouterLink :to="{ name: 'editTool', params: { id: h.id_herramienta } }">
+            <RouterLink
+              :to="{ name: 'editTool', params: { id: h.id_herramienta } }"
+            >
               <button class="btn btn-primary">Editar</button>
             </RouterLink>
             <button class="btn btn-danger" @click="eliminar(h.id_herramienta)">
@@ -58,11 +70,13 @@ const cargarHerramientas = async () => {
   cargando.value = true;
   try {
     const res = await axios.get("http://localhost:5000/tools/");
-    herramientas.value = res.data.TOOLS.map(h => ({
+    herramientas.value = res.data.TOOLS.map((h) => ({
       id_herramienta: h.ID_HERRAMIENTA || h.id_herramienta,
       nombre: h.NOMBRE || h.nombre,
       valor: h.VALOR || h.valor,
-      categoria: h.CATEGORIA || h.categoria
+      categoria: h.CATEGORIA || h.categoria,
+      imagen: h.imagen || h.IMAGEN,
+      marca: h.id_marca || h.ID_MARCA,
     }));
   } catch (error) {
     console.error("Error cargando herramientas:", error);

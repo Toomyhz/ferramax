@@ -1,7 +1,12 @@
 <template>
   <Carousel v-bind="carouselConfig" class="my-carousel">
     <Slide v-for="(img, index) in images" :key="index">
-      <img :src="img" class="carousel-img" alt="Herramienta" />
+      <RouterLink
+        :to="{ name: 'store', query: { brands: img.id_marca } }"
+        class="carousel-img-wrapper"
+      >
+        <img :src="img.src" :alt="img.alt" class="carousel-img" />
+      </RouterLink>
     </Slide>
     <template #addons>
       <Navigation />
@@ -10,10 +15,6 @@
   </Carousel>
   <main class="home">
     <section class="firstSection">
-      <p class="section-subtitle">
-        Trabajamos con las mejores marcas para que recibas productos de calidad
-        ¡garantizada!
-      </p>
       <div class="cta-container">
         <div class="cta-box subscribe">
           <h3>Suscríbete para recibir todas nuestras ofertas</h3>
@@ -31,10 +32,21 @@
     </section>
 
     <h2 class="section-title">Conoce nuestras marcas</h2>
+    <p class="section-subtitle">
+      Trabajamos con las mejores marcas para que recibas productos de calidad
+      ¡garantizada!
+    </p>
     <section class="brandsSection">
-      <article v-for="brand in brands" :key="brand.id_marca" class="brand-item">
-        <RouterLink :to="{ name: 'store', query: { brands: brand.id_marca } }">
-          <img :src="brand.IMAGEN" :alt="`Logo ${brand.MARCA || 'Marca'}`" />
+      <article v-for="brand in brands" :key="brand.ID_MARCA" class="brand-item">
+        <RouterLink :to="{ name: 'store', query: { brands: brand.ID_MARCA } }">
+          <img
+            v-if="brand.IMAGEN"
+            :src="brand.IMAGEN"
+            :alt="`Logo ${brand.MARCA}`"
+          />
+          <div v-else class="placeholder-logo">
+            {{ brand.MARCA }}
+          </div>
         </RouterLink>
       </article>
     </section>
@@ -73,17 +85,33 @@ const carouselConfig = {
   itemsToShow: 1,
   wrapAround: true,
   autoplay: 4000,
-  transition: 4000,
+  transition: 1200,
   mouseDrag: true,
   pauseAutoplayOnHover: true,
   breakpointMode: "carousel",
 };
 
 const images = [
-  "/src/assets/images/Bauker_herramientas.jpg",
-  "/src/assets/images/Bosch_herramientas.jpg",
-  "/src/assets/images/Makita_herramientas.jpg",
-  "/src/assets/images/Stanley_herramientas.jpg",
+  {
+    src: "/src/assets/images/Bauker_herramientas.jpg",
+    id_marca: 2,
+    alt: "Bauker herramientas",
+  },
+  {
+    src: "/src/assets/images/Bosch_herramientas.jpg",
+    id_marca: 3,
+    alt: "Bosch herramientas",
+  },
+  {
+    src: "/src/assets/images/Makita_herramientas.jpg",
+    id_marca: 6,
+    alt: "Makita herramientas",
+  },
+  {
+    src: "/src/assets/images/Stanley_herramientas.jpg",
+    id_marca: 8,
+    alt: "Stanley herramientas",
+  },
 ];
 
 onMounted(async () => {
@@ -156,6 +184,18 @@ onMounted(async () => {
   height: 100%;
 }
 
+.carousel-img-wrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-img-wrapper:focus,
+.carousel-img-wrapper:visited {
+  outline: none;
+  text-decoration: none;
+}
+
 @media (max-width: 768px) {
   .carousel-img {
     height: 200px;
@@ -163,14 +203,18 @@ onMounted(async () => {
 }
 
 .cta-container {
-  flex: 1 1 35%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 2rem;
-  max-width: 380px;
+  width: 100%;
 }
 
 .cta-box {
+  flex: 1 1 45%;
+  max-width: 380px;
+  max-height: 200px;
   background: linear-gradient(135deg, #ffb347 0%, #ffcc33 100%);
   padding: 2.4rem 2rem;
   border-radius: 12px;
@@ -319,5 +363,19 @@ onMounted(async () => {
   .brand-item img {
     width: 120px;
   }
+}
+
+.placeholder-logo {
+  width: 140px;
+  height: 80px;
+  background-color: #eee;
+  color: #333;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 1rem;
+  text-align: center;
 }
 </style>

@@ -3,8 +3,13 @@
     <div class="container">
       <h1 v-if="text">Resultados de: {{ text }}</h1>
       <h1 v-else-if="categoria">Productos en la Categoría: {{ categoria }}</h1>
+      <h1 v-else-if="brandId">Productos de la Marca: {{ brandId }}</h1>
       <h1 v-else>Productos</h1>
-      <ProductList :productos="productosFiltrados" :moneda="moneda" @agregarCarrito="agregarAlCarrito"/>
+      <ProductList
+        :productos="productosFiltrados"
+        :moneda="moneda"
+        @agregarCarrito="agregarAlCarrito"
+      />
     </div>
   </div>
 </template>
@@ -28,11 +33,14 @@ export default {
       tools: [],
       categoria: "",
       text: "",
+      brandId: null,
     };
   },
   computed: {
     productosFiltrados() {
-      if (this.categoria) {
+      if (this.brandId) {
+        return this.tools.filter((tool) => tool.ID_MARCA == this.brandId);
+      } else if (this.categoria) {
         return this.tools.filter((tool) => tool.CATEGORIA === this.categoria);
       } else if (this.text) {
         return this.tools.filter((tool) =>
@@ -49,6 +57,7 @@ export default {
       handler() {
         this.categoria = this.$route.query.categoria;
         this.text = this.$route.query.text;
+        this.brandId = this.$route.query.brands;
       },
       immediate: true,
     },
@@ -57,6 +66,7 @@ export default {
     this.fetchData();
     this.categoria = this.$route.query.categoria;
     this.text = this.$route.query.text;
+    this.brandId = this.$route.query.brands;
   },
   methods: {
     async fetchData() {
@@ -104,5 +114,4 @@ h1 {
   font-weight: 600;
   letter-spacing: 0.5px;
 }
-
 </style>
