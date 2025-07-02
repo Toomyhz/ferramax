@@ -3,7 +3,7 @@
     <div class="container">
       <h1 v-if="text">Resultados de: {{ text }}</h1>
       <h1 v-else-if="categoria">Productos en la Categoría: {{ categoria }}</h1>
-      <h1 v-else-if="brandId">Productos de la Marca: {{ brandId }}</h1>
+      <h1 v-else-if="brandId">Productos de la Marca: {{ nombreMarca }}</h1>
       <h1 v-else>Productos</h1>
       <ProductList
         :productos="productosFiltrados"
@@ -16,6 +16,7 @@
 
 <script>
 import { getTools } from "@/api/tools";
+import { getBrands } from "@/api/brands";
 import ProductList from "@/components/ProductList.vue";
 import { mapActions, mapGetters } from "vuex";
 
@@ -34,9 +35,15 @@ export default {
       categoria: "",
       text: "",
       brandId: null,
+      brands: [],
     };
   },
   computed: {
+    nombreMarca() {
+      if (!this.brandId) return "";
+      const obj = this.brands.find((b) => b.ID_MARCA === Number(this.brandId));
+      return obj ? obj.MARCA : "";
+    },
     productosFiltrados() {
       if (this.brandId) {
         return this.tools.filter((tool) => tool.ID_MARCA == this.brandId);
@@ -63,17 +70,27 @@ export default {
     },
   },
   created() {
-    this.fetchData();
+    this.fetchTools();
+    this.fetchBrands();
     this.categoria = this.$route.query.categoria;
     this.text = this.$route.query.text;
     this.brandId = this.$route.query.brands;
   },
+
   methods: {
-    async fetchData() {
+    async fetchTools() {
       try {
         this.tools = await getTools();
       } catch (error) {
         console.error("Error fetching data:", error);
+      }
+    },
+    async fetchBrands() {
+      try {
+        const res = await getBrands();
+        this.brands = res.MARCAS || res;
+      } catch (error) {
+        console.error("Error fetching brands:", error);
       }
     },
     ...mapActions(["agregarAlCarrito"]),

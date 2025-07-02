@@ -5,34 +5,41 @@
       v-for="producto in props.productos"
       :key="producto.ID_HERRAMIENTA"
     >
-      <p class="fs-5 text">
+      <p class="fs-5 name">
         <strong>{{ producto.NOMBRE }}</strong>
       </p>
+
       <img
         :src="producto.IMAGEN"
         alt="Imagen del Producto"
         class="product-img"
       />
-      <p>{{ producto.CATEGORIA }}</p>
+
+      <p class="categoria">{{ producto.CATEGORIA }}</p>
+
       <p
         v-if="props.moneda == 'USD'"
         :class="`valor-usd-${producto.ID_HERRAMIENTA}`"
       >
         USD $ {{ producto.VALOR_EN_DOLARES }}
       </p>
+
       <p v-if="props.moneda == 'CLP'" class="valor-clp">
-        CLP ${{ producto.VALOR }}
+        CLP $ {{ producto.VALOR.toLocaleString("es-CL") }}
       </p>
+
       <button class="btn-add-cart" @click="agregarAlCarrito(producto)">
         Agregar a Carrito
       </button>
     </div>
   </div>
 </template>
+
 <script setup>
 import { defineProps } from "vue";
 import { useStore } from "vuex";
 import Swal from "sweetalert2";
+
 const store = useStore();
 const props = defineProps({
   productos: {
@@ -43,6 +50,7 @@ const props = defineProps({
     type: String,
   },
 });
+
 function agregarAlCarrito(producto) {
   store.dispatch("agregarAlCarrito", producto);
   Swal.fire({
@@ -72,6 +80,11 @@ function agregarAlCarrito(producto) {
   overflow: hidden;
   text-align: center;
   transition: box-shadow 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  min-height: 420px;
 }
 
 .product-card:hover {
@@ -80,7 +93,19 @@ function agregarAlCarrito(producto) {
 
 .product-img {
   width: 100%;
-  height: auto;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 1em;
+  min-height: 40px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .product-card h3 {
@@ -97,13 +122,19 @@ function agregarAlCarrito(producto) {
   font-weight: bold;
   color: #000;
 }
+
+.categoria {
+  color: #555;
+  margin-bottom: 6px;
+}
+
 .btn-add-cart {
   background-color: #ffd333;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
   transition: background-color 0.3s ease-in-out;
-  margin: 16px 0;
+  margin-top: auto;
 }
 .btn-add-cart:hover {
   background-color: #e6c32f;
