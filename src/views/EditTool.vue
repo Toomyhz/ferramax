@@ -15,9 +15,7 @@
         />
       </div>
 
-      <div v-else class="edit-status error">
-        No se encontró la herramienta.
-      </div>
+      <div v-else class="edit-status error">No se encontró la herramienta.</div>
     </div>
   </div>
 </template>
@@ -37,7 +35,9 @@ const loading = ref(true);
 const cargarHerramienta = async () => {
   loading.value = true;
   try {
-    const res = await axios.get(`http://localhost:5000/tools/${route.params.id}`);
+    const res = await axios.get(
+      `http://localhost:5000/tools/${route.params.id}`
+    );
     herramienta.value = Array.isArray(res.data) ? res.data[0] : res.data;
   } catch (err) {
     console.error("Error al cargar herramienta:", err);

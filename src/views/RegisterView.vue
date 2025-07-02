@@ -37,7 +37,7 @@ const router = useRouter();
 
 async function registrarUsuario() {
   try {
-    const response = await axios.post("http://localhost:5000/users/register/", {
+    await axios.post("http://localhost:5000/users/register/", {
       email: email.value,
       contrasena: contrasena.value,
     });

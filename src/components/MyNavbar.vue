@@ -3,7 +3,12 @@
     <div class="start">
       <div class="marca">
         <RouterLink :to="{ name: 'home' }">
-          <span class="first">FERRA</span><span class="second">MAX</span>
+          <img
+            src="/LOGO.png"
+            alt="Logo Ferramax"
+            width="205px"
+            height="50px"
+          />
         </RouterLink>
       </div>
       <div id="buscador" class="m-auto">
@@ -213,10 +218,6 @@ nav {
   width: 100%;
 }
 .marca {
-  height: 50px;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-size: 40px;
-  display: flex;
   cursor: pointer;
   transition: 0.5s;
 }
@@ -225,16 +226,6 @@ nav {
 }
 .marca > a {
   text-decoration: none;
-}
-.first {
-  background-color: #ffd333;
-  color: rgb(37, 37, 46);
-  padding: 0 10px;
-}
-.second {
-  background-color: rgb(37, 37, 46);
-  color: #ffd333;
-  padding: 0 10px;
 }
 .div-categoria {
   height: 100%;
@@ -247,7 +238,7 @@ nav {
   display: none;
   background-color: #ffd333;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: 999;
 }
 .dropdown-content a {
   color: black;

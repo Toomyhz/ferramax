@@ -35,18 +35,18 @@
         <tr v-for="h in herramientas" :key="h.id_herramienta">
           <td>
             <img
-              :src="h.imagen"
+              :src="h.IMAGEN"
               alt="Imagen de herramienta"
               style="max-width: 80px; max-height: 80px"
             />
           </td>
-          <td>{{ h.nombre }}</td>
-          <td>${{ h.valor }}</td>
-          <td>{{ h.categoria }}</td>
-          <td>{{ h.marca }}</td>
+          <td>{{ h.NOMBRE }}</td>
+          <td>${{ h.VALOR }}</td>
+          <td>{{ h.CATEGORIA }}</td>
+          <td>{{ h.MARCA }}</td>
           <td class="acciones">
             <RouterLink
-              :to="{ name: 'editTool', params: { id: h.id_herramienta } }"
+              :to="{ name: 'editTool', params: { id: h.ID_HERRAMIENTA } }"
             >
               <button class="btn btn-primary">Editar</button>
             </RouterLink>
@@ -64,6 +64,8 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import ToolForm from "@/components/ToolForm.vue";
+import { getTools } from "@/api/tools";
+import { getBrandById } from "@/api/brands";
 
 const herramientas = ref([]);
 const mostrarFormulario = ref(false);
@@ -73,15 +75,11 @@ const cargando = ref(false);
 const cargarHerramientas = async () => {
   cargando.value = true;
   try {
-    const res = await axios.get("http://localhost:5000/tools/");
-    herramientas.value = res.data.TOOLS.map((h) => ({
-      id_herramienta: h.ID_HERRAMIENTA || h.id_herramienta,
-      nombre: h.NOMBRE || h.nombre,
-      valor: h.VALOR || h.valor,
-      categoria: h.CATEGORIA || h.categoria,
-      imagen: h.imagen || h.IMAGEN,
-      marca: h.id_marca || h.ID_MARCA,
-    }));
+    herramientas.value = await getTools();
+    for (const herramienta of herramientas.value) {
+      const marca = await getBrandById(herramienta.ID_MARCA);
+      herramienta.MARCA = marca.MARCA;
+    }
   } catch (error) {
     console.error("Error cargando herramientas:", error);
     alert("Error cargando herramientas");
