@@ -84,15 +84,7 @@ async function login(e) {
     // ✅ Redirigir (esto ayuda a que la navbar se reevalúe también)
     router.push({ name: "home" });
   } catch (err) {
-    Swal.fire({
-      icon: "error",
-      title: "Error de inicio de sesión",
-      text: "Correo o contraseña inválidos.",
-      timer: 2000,
-      showConfirmButton: false,
-      toast: true,
-      position: "top",
-    });
+    alert("Correo o contraseña inválidos.");
     console.error("Error de login", err);
   }
 }

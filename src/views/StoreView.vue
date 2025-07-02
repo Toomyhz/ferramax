@@ -7,7 +7,7 @@
       <h1 v-else>Productos</h1>
       <ProductList
         :productos="productosFiltrados"
-        :moneda="props.moneda"
+        :moneda="moneda"
         @agregarCarrito="agregarAlCarrito"
       />
     </div>

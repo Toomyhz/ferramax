@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="h in herramientas" :key="h.ID_HERRAMIENTA">
+        <tr v-for="h in herramientas" :key="h.id_herramienta">
           <td>
             <img
               :src="h.IMAGEN"
@@ -47,11 +47,10 @@
           <td class="acciones">
             <RouterLink
               :to="{ name: 'editTool', params: { id: h.ID_HERRAMIENTA } }"
-              class="btn btn-primary"
             >
-              Editar
+              <button class="btn btn-primary">Editar</button>
             </RouterLink>
-            <button class="btn btn-danger" @click="eliminar(h.ID_HERRAMIENTA)">
+            <button class="btn btn-danger" @click="eliminar(h.id_herramienta)">
               Eliminar
             </button>
           </td>
@@ -77,11 +76,10 @@ const cargarHerramientas = async () => {
   cargando.value = true;
   try {
     herramientas.value = await getTools();
-    const promesas = herramientas.value.map(async (herramienta) => {
+    for (const herramienta of herramientas.value) {
       const marca = await getBrandById(herramienta.ID_MARCA);
       herramienta.MARCA = marca.MARCA;
-    });
-    await Promise.all(promesas);
+    }
   } catch (error) {
     console.error("Error cargando herramientas:", error);
     alert("Error cargando herramientas");
@@ -116,6 +114,7 @@ onMounted(() => {
 <style scoped>
 .admin-container {
   padding: 2rem;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
   min-height: 100vh;
   font-family: "Segoe UI", sans-serif;
   display: flex;
