@@ -3,7 +3,7 @@
     <div class="container">
       <h1 v-if="text">Resultados de: {{ text }}</h1>
       <h1 v-else-if="categoria">Productos en la Categoría: {{ categoria }}</h1>
-      <h1 v-else>Tienda</h1>
+      <h1 v-else>Productos</h1>
       <ProductList :productos="productosFiltrados" :moneda="moneda" @agregarCarrito="agregarAlCarrito"/>
     </div>
   </div>
@@ -77,16 +77,32 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  min-height: 100vh;
+  padding-top: 40px;
 }
-.container {
-  width: 95%;
-  margin: 20px;
 
-}
-h1{
-  font-size: 2em;
+.container {
+  font-weight: bold;
   color: #333;
-  border: 1px solid #ccc;
-  padding: 10px;  
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
 }
+
+h1 {
+  font-size: 1.8em;
+  color: #2c3e50;
+  margin-bottom: 24px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
 </style>

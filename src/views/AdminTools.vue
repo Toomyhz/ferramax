@@ -98,89 +98,107 @@ onMounted(() => {
 <style scoped>
 .admin-container {
   padding: 2rem;
-  background-color: #f9f9f9;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .admin-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 1rem;
+  font-size: 26px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .btn {
-  padding: 0.4rem 0.8rem;
-  font-size: 14px;
+  padding: 0.5rem 1rem;
+  font-size: 15px;
+  font-weight: 600;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background-color 0.2s;
 }
 
 .btn-success {
-  background-color: #28a745;
+  background-color: #2ecc71;
   color: white;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .btn-success:hover {
-  background-color: #218838;
+  background-color: #27ae60;
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: #3498db;
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: #0069d9;
+  background-color: #2980b9;
 }
 
 .btn-danger {
-  background-color: #dc3545;
+  background-color: #e74c3c;
   color: white;
 }
 
 .btn-danger:hover {
-  background-color: #c82333;
+  background-color: #c0392b;
 }
 
 .admin-table {
   width: 100%;
+  max-width: 1000px;
   border-collapse: collapse;
   background-color: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  border: 1px solid #ddd;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .admin-table th,
 .admin-table td {
-  padding: 0.75rem;
-  border: 1px solid #eee;
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
   text-align: left;
+  font-size: 14px;
+  color: #333;
 }
 
 .admin-table th {
-  background-color: #f0f0f0;
+  background-color: #f8f9fa;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #555;
 }
 
 .acciones {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .form-container {
-  margin-bottom: 2rem;
-  padding: 1rem;
+  width: 100%;
+  max-width: 800px;
   background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .loading {
-  margin-top: 1rem;
-  color: #555;
+  margin-top: 2rem;
+  color: #666;
+  font-style: italic;
+  font-size: 15px;
 }
 </style>

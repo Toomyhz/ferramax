@@ -94,12 +94,16 @@
       />
       <p v-if="cambio('imagen')" class="form-note">
         URL anterior: <span class="italic">{{ props.herramienta.IMAGEN }}</span>
-        <img
-          :src="props.herramienta.IMAGEN"
-          alt="Imagen anterior"
-          class="imagen-previa"
-        />
       </p>
+      
+      <div class="form-group">
+        <label>Imagen Anterior</label>
+          <img
+            :src="props.herramienta.IMAGEN"
+            alt="Imagen anterior"
+            class="imagen-previa"
+          />
+      </div>
     </div>
 
     <div class="form-actions">
