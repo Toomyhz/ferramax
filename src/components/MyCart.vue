@@ -54,7 +54,7 @@
   </div>
 </template>
 <script setup>
-import { defineProps, computed } from "vue";
+import { computed } from "vue";
 import PagoTransbank from "./PagoTransbank.vue";
 import { useStore } from "vuex";
 const store = useStore();

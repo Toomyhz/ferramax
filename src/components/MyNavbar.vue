@@ -108,7 +108,7 @@ import { useStore } from "vuex";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import getCategories from "@/api/categories";
 import Swal from "sweetalert2";
-import { defineProps, defineEmits, computed, ref, onMounted, watch } from "vue";
+import { defineEmits, computed, ref, onMounted, watch } from "vue";
 
 const emit = defineEmits(["cambiarMoneda"]);
 

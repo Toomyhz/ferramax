@@ -85,7 +85,6 @@ import { RouterLink } from "vue-router";
 import { onMounted, reactive } from "vue";
 import { getBrands } from "@/api/brands";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import { defineProps } from "vue";
 import "vue3-carousel/carousel.css";
 
 defineProps({

@@ -32,7 +32,6 @@
   </div>
 </template>
 <script setup>
-import { defineProps } from "vue";
 import { useStore } from "vuex";
 import Swal from "sweetalert2";
 const store = useStore();
