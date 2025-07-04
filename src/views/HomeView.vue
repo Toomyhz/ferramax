@@ -58,24 +58,22 @@
     </section>
 
     <section class="featuresSection">
-      <div class="d-flex gap-3">
-        <article class="feature-item">
-          <i class="bi bi-check2-all"></i>
-          <h5>Calidad de productos</h5>
-        </article>
-        <article class="feature-item">
-          <i class="bi bi-truck"></i>
-          <h5>Envíos gratis</h5>
-        </article>
-        <article class="feature-item">
-          <i class="bi bi-arrow-left-right"></i>
-          <h5>Garantía extendida</h5>
-        </article>
-        <article class="feature-item">
-          <i class="bi bi-telephone-inbound"></i>
-          <h5>Soporte 24/7</h5>
-        </article>
-      </div>
+      <article class="feature-item">
+        <i class="bi bi-check2-all"></i>
+        <h5>Calidad de productos</h5>
+      </article>
+      <article class="feature-item">
+        <i class="bi bi-truck"></i>
+        <h5>Envíos gratis</h5>
+      </article>
+      <article class="feature-item">
+        <i class="bi bi-arrow-left-right"></i>
+        <h5>Garantía extendida</h5>
+      </article>
+      <article class="feature-item">
+        <i class="bi bi-telephone-inbound"></i>
+        <h5>Soporte 24/7</h5>
+      </article>
     </section>
   </main>
 </template>
