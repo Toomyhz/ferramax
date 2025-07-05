@@ -1,107 +1,138 @@
 <template>
-    <div class="container position-absolute top-50 start-50 translate-middle">
-      <div class="form-container position-relative" id="form">
-        <h2>Introduce tu correo para ofertas únicas</h2>
-        <form @submit.prevent="submitForm" method="post">
-          <input v-model="form.email" placeholder="ejemplo@gmail.com" type="email" name="email" class="form-control " id="email-input" required>
-          <button type="submit" class="btn btn-warning">Suscribete</button>
-        </form>
-      </div>
-      <div class="text-container text-break">
-        <h1 class="text-container-aviso">¡SUSCRÍBETE A FERRAMAX!</h1>
-        <p class="fs-5">
-          Para esos clientes que quieren estar informados de todo lo que traiga Ferramax y sus descuentos únicos, ofrecemos la opción de suscripción, la cual no cuenta con costo alguno. Se te enviará de manera periódica información y descuentos únicos de nuestra compañía.
-        </p>
-      </div>
+  <div class="suscribe-wrapper">
+    <div class="form-container" id="form">
+      <h2>Introduce tu correo para ofertas únicas</h2>
+
+      <form @submit.prevent="submitForm" method="post">
+        <input
+          v-model="form.email"
+          type="email"
+          placeholder="ejemplo@gmail.com"
+          name="email"
+          class="form-control"
+          id="email-input"
+          required
+        />
+        <button type="submit" class="btn btn-warning">Suscribete</button>
+      </form>
     </div>
+
+    <div class="text-container">
+      <h1 class="text-banner">¡SUSCRÍBETE A FERRAMAX!</h1>
+      <p class="fs-5">
+        Para esos clientes que quieren estar informados de todo lo que traiga
+        Ferramax y sus descuentos únicos, ofrecemos la opción de suscripción, la
+        cual no cuenta con costo alguno. Se te enviará de manera periódica
+        información y descuentos únicos de nuestra compañía.
+      </p>
+    </div>
+  </div>
 </template>
+
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
-  export default{
-    data() {
-      return{
-        form:{
-          email:''
-        }
-      };
-    },
-    methods:{
-      async submitForm(){
-        const response = await axios.post("http://127.0.0.1:5000/suscribe/",{
-          email:this.form.email
-        })
-        var input = document.getElementById('email-input');
-        if (response.data['email_valido']){
-          input.classList.remove("is-invalid");
-          Swal.fire({
-                text:"Suscripción exitosa",
-                width:"300px",
-                position:"top",
-                timer:2000,
-                timerProgressBar:true,
-                showConfirmButton:false,
-                toast:true,
-                icon:"success",
-            });
-        } else{
-          input.classList.add("is-invalid");
-          Swal.fire({
-                text:response.data['error'],
-                width:"300px",
-                position:"top",
-                timer:2000,
-                timerProgressBar:true,
-                showConfirmButton:false,
-                toast:true,
-                icon:"error",
-            });
-        }
-      }
-    }
-  }
-</script>  
-<style scoped>
 
-.text-container{
-    min-width: 200px;
-    max-width: 700px;
+export default {
+  data() {
+    return {
+      form: {
+        email: "",
+      },
+    };
+  },
+  methods: {
+    async submitForm() {
+      const response = await axios.post("http://127.0.0.1:5000/suscribe/", {
+        email: this.form.email,
+      });
+      var input = document.getElementById("email-input");
+      if (response.data["email_valido"]) {
+        input.classList.remove("is-invalid");
+        Swal.fire({
+          text: "Suscripción exitosa",
+          width: "300px",
+          position: "top",
+          timer: 2000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          toast: true,
+          icon: "success",
+        });
+      } else {
+        input.classList.add("is-invalid");
+        Swal.fire({
+          text: response.data["error"],
+          width: "300px",
+          position: "top",
+          timer: 2000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          toast: true,
+          icon: "error",
+        });
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+.suscribe-wrapper {
+  min-height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: 24px;
+  flex-wrap: wrap;
 }
-.text-container> .text-container-aviso{
-    background-color: #ffd333;
-    margin-left: 10%;
-    margin-right: 18%;
-}
-.container {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px; /* Espacio entre el formulario y el texto */
-}
+
 .form-container {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    min-width: 300px; /* Ancho mínimo */
-    max-width: 600px; /* Ancho máximo */
-    width: 100%;
-    min-height: 250px;
-    color: aliceblue;
-    background-color:  rgb(37,37,46);
-    position: relative;
+  background: #25252e;
+  color: #fff;
+  padding: 24px 32px 64px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  width: 320px;
+  max-width: 100%;
+  position: relative;
 }
-button[type="submit"] {
-    background-color: #ffd333;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
+
+.form-title {
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+  text-align: center;
 }
-button[type="submit"]:hover {
-    background-color: rgb(161, 161, 45);
+
+.btn-suscribe {
+  background: #ffd333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  transition: background 0.25s;
+}
+
+.btn-suscribe:hover {
+  background: #e6c32f;
+}
+.btn-suscribe:active {
+  background: #d4b52a;
+}
+
+.text-container {
+  max-width: 500px;
+  min-width: 250px;
+}
+
+.text-banner {
+  background: #ffd333;
+  padding: 4px 8px;
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  text-align: center;
 }
 </style>
