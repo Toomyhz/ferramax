@@ -14,9 +14,6 @@ def get_tool_route(id):
     return get_tool(id)
 
 
-
-
-
 @tools_bp.route('/tools/', methods=['POST'])
 def create_tool_route():
     data = request.get_json()

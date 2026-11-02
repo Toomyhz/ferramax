@@ -4,9 +4,9 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-me")
     DEBUG = os.getenv("FLASK_DEBUG", "0") == "1"
 
-    USER_FERRAMAX = os.getenv("USER_FERRAMAX")
-    PASSWORD_FERRAMAX = os.getenv("PASSWORD_FERRAMAX")
-    WALLET_PASSWORD = os.getenv("WALLET_PASSWORD")
+
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     CORS_RESOURCES = {
         r"/api/*": {
