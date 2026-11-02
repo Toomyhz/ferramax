@@ -5,6 +5,7 @@ from config import Config
 from extensions import db, migrate
 from app.modules.brands.routes import brands_bp
 
+
 def create_app(config_class=Config):
     load_dotenv()
 
@@ -12,6 +13,9 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     db.init_app(app)
+    
+    # Import models
+    from app.modules.users.models import User
     migrate.init_app(app, db)
 
     CORS(app, resources=app.config["CORS_RESOURCES"])
