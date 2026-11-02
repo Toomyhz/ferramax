@@ -1,8 +1,5 @@
-from flask import jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..suscription.validations import validar_correo, validarFromDatabase
-from ..suscription.db import saveDb, get_user_by_email
-
+import app.modules.users.repository as user_repository
 import jwt
 from datetime import datetime, timedelta
 
@@ -14,29 +11,14 @@ def create_user(data):
 
     password_hash = generate_password_hash(data.get('password'))
 
+    user = user_repository.create_user({
+        "email": email,
+        "password_hash": password_hash,
+        "first_name": data.get('first_name'),
+        "last_name": data.get('last_name'),
+    })
 
-    # Validar formato del correo
-    if not validar_correo(email):
-        return jsonify({"error": "Correo electrónico no válido"}), 400
-
-    # Verificar si el correo ya existe en la base de datos
-    try:
-        email_disponible = validarFromDatabase(email)  # devuelve True si está disponible
-    except Exception as e:
-        return jsonify({"error": f"Error de base de datos: {str(e)}"}), 500
-
-    if not email_disponible:
-        return jsonify({"error": "El correo ya existe en la base de datos"}), 409
-
-    # Generar hash seguro de la contraseña
-    password_hash = generate_password_hash(password)
-
-    # Guardar en la base de datos
-    try:
-        saveDb(email, password_hash)
-        return jsonify({"message": "Usuario creado exitosamente"}), 201
-    except Exception as e:
-        return jsonify({"error": f"No se pudo guardar el usuario: {str(e)}"}), 500
+    return user
     
 
 

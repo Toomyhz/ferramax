@@ -1,4 +1,4 @@
-from flask import request, Blueprint
+from flask import request, Blueprint, jsonify
 from .services import create_user, login_user
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -12,5 +12,5 @@ def register_user():
 @auth_bp.route('/login/', methods=['POST','OPTIONS'])
 def login_user_route():
     if request.method == 'OPTIONS':
-        return '', 200  # respuesta válida para preflight
+        return '', 200 
     return login_user(request)
