@@ -6,17 +6,14 @@ from ..suscription.db import saveDb, get_user_by_email
 import jwt
 from datetime import datetime, timedelta
 
-def create_user(request):
-    data = request.get_json()
-
-    if not data:
-        return jsonify({"error": "No se recibieron datos"}), 400
-
+def create_user(data):
     email = data.get('email')
-    contrasena = data.get('contrasena')
 
-    if not email or not contrasena:
-        return jsonify({"error": "Faltan email o contraseña"}), 400
+    if user_repository.get_by_email(email):
+        raise ValueError("El correo ya está registrado")
+
+    password_hash = generate_password_hash(data.get('password'))
+
 
     # Validar formato del correo
     if not validar_correo(email):
@@ -32,20 +29,18 @@ def create_user(request):
         return jsonify({"error": "El correo ya existe en la base de datos"}), 409
 
     # Generar hash seguro de la contraseña
-    contrasena_segura = generate_password_hash(contrasena)
+    password_hash = generate_password_hash(password)
 
     # Guardar en la base de datos
     try:
-        saveDb(email, contrasena_segura)
+        saveDb(email, password_hash)
         return jsonify({"message": "Usuario creado exitosamente"}), 201
     except Exception as e:
         return jsonify({"error": f"No se pudo guardar el usuario: {str(e)}"}), 500
     
 
 
-SECRET_KEY = "supersecreto"  # Usa algo fuerte y almacénalo con seguridad
-
-def login_user(request):
+def login_user(data):
     data = request.get_json()
 
     if not data:
