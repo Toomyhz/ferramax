@@ -1,0 +1,464 @@
+<template>
+  <header class="m-0 p-0">
+    <div class="start">
+      <div class="marca">
+        <RouterLink :to="{ name: 'home' }">
+          <img
+            src="/LOGO.png"
+            alt="Logo Ferramax"
+            width="205px"
+            height="50px"
+          />
+        </RouterLink>
+      </div>
+      <div id="buscador" class="m-auto">
+        <span><i class="bi bi-search"></i></span>
+        <input
+          type="search"
+          name="text"
+          id="search"
+          @keyup.enter="navegar"
+          v-model="text"
+          placeholder="Ingrese el producto a buscar"
+        />
+      </div>
+      <div class="cambio">
+        <button id="btn-tipo-cambio" @click="cambiarMoneda">
+          Tipo de cambio: {{ props.cambioActual }}
+        </button>
+      </div>
+    </div>
+    <nav>
+      <div class="div-categoria">
+        <button id="btn-categorias">
+          <span><i class="bi bi-list"></i>Categorias</span>
+          <span><i class="bi bi-arrow-bar-down"></i></span>
+        </button>
+        <div id="dropdown-content" class="dropdown-content">
+          <RouterLink
+            :to="{ name: 'store', query: { categoria: categoria.CATEGORIA } }"
+            v-for="categoria in categorias"
+            :key="categoria.ID_CATEGORIA"
+            >{{ categoria.CATEGORIA }}</RouterLink
+          >
+        </div>
+      </div>
+      <ul class="navbar-1">
+        <li>
+          <RouterLink
+            :to="{ name: 'store' }"
+            :class="{ ' active-link': isActive('store') }"
+          >
+            Tienda
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink
+            :to="{ name: 'admin-tools' }"
+            :class="{ ' active-link': isActive('admin-tools') }"
+          >
+            Agregar Productos
+          </RouterLink>
+        </li>
+
+        <template v-if="!estaLogeado">
+          <li>
+            <RouterLink
+              :to="{ name: 'login' }"
+              :class="{ ' active-link': isActive('login') }"
+            >
+              Iniciar sesión
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink
+              :to="{ name: 'register' }"
+              :class="{ ' active-link': isActive('register') }"
+            >
+              Registrarse
+            </RouterLink>
+          </li>
+        </template>
+
+        <template v-else>
+          <li>Mis compras</li>
+          <li>
+            <a href="#" @click.prevent="cerrarSesion">Cerrar sesión</a>
+          </li>
+        </template>
+      </ul>
+      <div class="tools">
+        <div>
+          <RouterLink
+            :to="{ name: 'cart' }"
+            :class="{ 'active-link': isActive('cart') }"
+            ><i class="bi bi-cart3"></i
+            ><span class="contador_carrito" v-if="carrito.length > 0">{{
+              carrito.length
+            }}</span></RouterLink
+          >
+        </div>
+      </div>
+    </nav>
+  </header>
+</template>
+
+<script setup>
+import { useStore } from "vuex";
+import { RouterLink, useRoute, useRouter } from "vue-router";
+import getCategories from "@/api/categories";
+import Swal from "sweetalert2";
+import { defineEmits, computed, ref, onMounted, watch } from "vue";
+
+const emit = defineEmits(["cambiarMoneda"]);
+
+const props = defineProps({
+  cambioActual: {
+    type: String,
+    default: "USD",
+  },
+});
+
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const estaLogeado = computed(() => store.getters.estaLogeado);
+const text = ref(route.query.text || "");
+const categorias = ref([]);
+const carrito = computed(() => store.getters.carrito);
+
+const isActive = (routeName) => {
+  return route.name === routeName;
+};
+
+watch(
+  () => route.query,
+  (query) => {
+    text.value = query.text || "";
+  },
+  { immediate: true }
+);
+
+const fetchData = async () => {
+  try {
+    categorias.value = await getCategories();
+  } catch (error) {
+    console.error("Error fetching data: ", error);
+  }
+};
+
+const swalCambio = (moneda) => {
+  Swal.fire({
+    text: `Moneda cambiada a: ${moneda}`,
+    width: "300px",
+    position: "top",
+    timer: 2000,
+    timerProgressBar: true,
+    showConfirmButton: false,
+    toast: true,
+    icon: "info",
+  });
+};
+function cambiarMoneda() {
+  if (props.cambioActual === "USD") {
+    // emit event in <script setup> using defineEmits
+    emit("cambiarMoneda", "CLP");
+    swalCambio("CLP");
+  } else {
+    emit("cambiarMoneda", "USD");
+    swalCambio("USD");
+  }
+}
+
+function navegar() {
+  if (text.value.trim() !== "") {
+    router.push({ name: "store", query: { text: text.value } });
+  } else {
+    router.push({ name: "store" });
+  }
+}
+
+function cerrarSesion() {
+  store.commit("logoutUser");
+  Swal.fire({
+    icon: "success",
+    title: "¡Hasta luego!",
+    text: `Sesión cerrada correctamente`,
+    timer: 2000,
+    showConfirmButton: false,
+    toast: true,
+    position: "top-end",
+  });
+  router.push({ name: "home" });
+}
+onMounted(() => {
+  fetchData();
+});
+</script>
+
+<style scoped>
+.start {
+  height: 100px;
+  padding: 0 50px;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+nav {
+  height: 50px;
+  padding: 0 50px;
+  background-color: rgb(49, 49, 58);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.marca {
+  cursor: pointer;
+  transition: 0.5s;
+}
+.marca:hover {
+  transform: scale(1.1);
+}
+.marca > a {
+  text-decoration: none;
+}
+.div-categoria {
+  height: 100%;
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  position: absolute;
+  width: 100%;
+  display: none;
+  background-color: #ffd333;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a:hover {
+  background-color: antiquewhite;
+}
+.div-categoria:hover .dropdown-content {
+  display: block;
+}
+#btn-categorias {
+  height: 100%;
+  width: 200px;
+  padding: 0 10px;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  border: none;
+  font-size: 20px;
+  background-color: #ffd333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-1 {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  height: 100%;
+  list-style-type: none;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.navbar-1 li {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+}
+.navbar-1 li a {
+  padding: 10px;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: #f5f5f5;
+  text-align: center;
+  align-content: center;
+  border-bottom: none;
+}
+.navbar-1 li a:hover {
+  color: #ffd333;
+  border-bottom: #ffd333 5px solid;
+  font-size: 1.2rem;
+}
+.tools {
+  display: flex;
+  height: 100%;
+  margin-left: auto;
+}
+.tools > div {
+  list-style-type: none;
+  width: 70px;
+  height: 100%;
+  display: flex;
+}
+.tools > div a {
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: #ffd333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+.tools > div a:hover {
+  border-bottom: 5px #ffd333 solid;
+}
+#buscador {
+  display: flex;
+  align-items: stretch;
+  width: 500px;
+  margin: 10px 0;
+}
+#buscador span {
+  border: 1px solid black;
+  border-radius: 50px 0% 0% 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffd333;
+  color: #000;
+  font-size: 1.2rem;
+  transition: 0.2s all ease-in-out;
+}
+#buscador input {
+  flex: 1;
+  width: 80%;
+  padding: 10px;
+  border: 1px solid black;
+  border-left: none;
+  border-radius: 0% 25px 25px 0%;
+  transition: 0.2s all ease-in-out;
+}
+#buscador input:focus {
+  outline: none;
+  border: 2.5px solid #ffd333;
+  box-sizing: border-box;
+}
+#buscador:focus-within span {
+  background-color: rgb(37, 37, 46);
+  color: #ffd333;
+  border-right: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.cambio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-left: auto;
+}
+.cambio button {
+  background-color: #ffd333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 1rem;
+}
+.cambio button:hover {
+  background-color: #e6c32f;
+}
+.cambio button:active {
+  background-color: #d4b52a;
+}
+
+.active-link {
+  color: #ffd333 !important;
+  border-bottom: #ffd333 5px solid !important;
+  font-size: 1.2rem;
+}
+
+.contador_carrito {
+  height: 20px;
+  width: 20px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  background-color: #ffd333;
+  color: rgb(37, 37, 46);
+  border-radius: 50%;
+}
+/* Responsive Styles */
+@media (max-width: 1050px) {
+  .start {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+  .marca {
+    font-size: 40px;
+    margin: 10px 0 30px 0;
+  }
+  #buscador {
+    width: 80%;
+    margin: 20px;
+    height: 35px;
+  }
+  #buscador input {
+    width: 100%;
+  }
+  .cambio {
+    position: relative;
+    margin: 10px 0;
+    display: flex;
+  }
+  .cambio > button {
+    margin: 0 10px;
+    font-size: 1rem;
+  }
+  nav {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+  }
+  .tools {
+    margin-left: 0;
+  }
+}
+@media (max-width: 768px) {
+  .marca:hover {
+    transform: none;
+  }
+  nav {
+    padding: 0;
+    align-items: normal;
+  }
+  .navbar-1 {
+    display: none;
+  }
+}
+</style>
