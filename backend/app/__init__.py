@@ -1,43 +1,31 @@
 from flask import Flask
-from dotenv import load_dotenv 
-import os
-from OracleConnection import connect
 from flask_cors import CORS
+from dotenv import load_dotenv
+from OracleConnection import connect
+from config import Config
 
-load_dotenv()
+# compat temporal con código actual que hace `from app import connection`
+connection = None
 
-app = Flask(__name__)
-CORS(app, resources={
-    r"/api/*": {
-        "origins": ["http://localhost:5173", "http://localhost:4173"],
-        "methods": ["POST", "GET"],
-        "allow_headers": ["Content-Type", "Authorization"],
-        "supports_credentials": True
-    },
-    r"/suscribe/*": {
-        "origins": ["http://localhost:5173", "http://localhost:4173"]
-    },
-    r"/tools/*": {
-        "origins": ["http://localhost:5173", "http://localhost:4173"]
-    },
-    r"/categories/*": {
-        "origins": ["http://localhost:5173", "http://localhost:4173"]
-    },
-    r"/marcas/*": {
-        "origins": ["http://localhost:5173", "http://localhost:4173"]
-    },
-    r"/users/*": {
-        "origins": ["http://localhost:5173", "http://localhost:4173"],
-        "methods": ["POST", "GET", "OPTIONS"]
-    }
-})
-user = os.getenv('USER_FERRAMAX')
-password = os.getenv('PASSWORD_FERRAMAX')
-wallet_password = os.getenv('WALLET_PASSWORD')
+def create_app(config_class=Config):
+    global connection
 
-connection = connect(user,password,wallet_password)
+    load_dotenv()
+    app = Flask(__name__)
+    app.config.from_object(config_class)
 
-from .tools.routes import get_tools_route,get_tool_route,get_marcas_route,get_marca_route ,create_tool_route,update_tool_route,delete_tool_route
-from .transbank.routes import init_transaction,transaction_return
-from .suscription.routes import suscribe_route
-from .users.routes import create_user_route
+    CORS(app, resources=app.config["CORS_RESOURCES"])
+
+    connection = connect(
+        app.config["USER_FERRAMAX"],
+        app.config["PASSWORD_FERRAMAX"],
+        app.config["WALLET_PASSWORD"],
+    )
+
+    # imports tardíos para evitar ciclos
+    from app.tools import routes
+    from app.transbank import routes
+    from app.suscription import routes
+    from app.users import routes
+
+    return app
