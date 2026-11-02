@@ -1,8 +1,4 @@
-<html>
-<body>
-<!DOCTYPE html>
-<html>
-<body>
+
   <h1>Proyecto Universitario: FERRAMAX-FRONT</h1>
   <img src="https://d100mj7v0l85u5.cloudfront.net/s3fs-public/styles/webp/public/2023-04/funciones-del-jefe-de-compras-6.png.webp?itok=Xf-9nwHr">
   <h4>FERRAMAX es un pequeño proyecto semestral evaluado realizado por 3 personas, este proyecto en síntesis consta de 2 partes el front-end y el back-end, este repositorio de github es únicamente el back, el <a href="https://github.com/Toomyhz/Ferramax-front">Front end</a> está en un repositorio apartado únicamente para el mismo.</h4>
@@ -35,8 +31,6 @@
   [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/toomyhz/)
       
   </div>
-  
-  [![Tomas stast](https://github-readme-stats.vercel.app/api?username=Toomyhz)](https://github.com/Toomyhz/github-readme-stats)
   <h3>Daniel Rodriguez</h3>
   <div>
 
@@ -45,8 +39,6 @@
   [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/daniel-rodriguezr/)
       
   </div>
-
-  [![dani stast](https://github-readme-stats.vercel.app/api?username=DaniRodriguezR)](https://github.com/DaniRodriguezR=anuraghazra&show_icons=true&theme=radical)
   <h3>Luis Gomez</h3>
   <div>
 
@@ -55,10 +47,5 @@
   [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](linkedin.com/in/luis-manuel-gomez-valery-1b68b2253)
       
   </div>
-  
-  [![luis stast](https://github-readme-stats.vercel.app/api?username=LuisGomez1215)](https://github.com/LuisGomez1215/github-readme-stats)
 
-  
-  </body>
-</html>
 

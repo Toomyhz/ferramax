@@ -1,15 +1,17 @@
-/venv
-/env
-.env
-.venv
-/__pycache__/
-*/__pycache__/
-*/__pycache__/*
+# Python
+backend/.venv/
+backend/__pycache__/
+backend/**/*.py[cod]
 
-__pycache__
-.pytest_cache
+# Flask
+backend/.env
+backend/instance/
 
-OracleConnection.py
-.OracleConnection.py
-/OracleConnection.py
-./OracleConnection.py
+# Node
+client/node_modules/
+client/dist/
+client/.env
+
+# IDE
+.idea/
+.vscode/
