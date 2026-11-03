@@ -1,24 +1,36 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 import app.modules.users.repository as user_repository
+import app.modules.users.services as user_services
 import jwt
 from datetime import datetime, timedelta
-
+from extensions import db
 def create_user(data):
     email = data.get('email')
 
-    if user_repository.get_by_email(email):
+    if user_repository.get_user_by_email(email):
         raise ValueError("El correo ya está registrado")
 
     password_hash = generate_password_hash(data.get('password'))
 
-    user = user_repository.create_user({
-        "email": email,
-        "password_hash": password_hash,
-        "first_name": data.get('first_name'),
-        "last_name": data.get('last_name'),
-    })
+    try:
+        user = user_repository.create_user({
+            "email": email,
+            "password_hash": password_hash,
+            "first_name": data.get('first_name'),
+            "last_name": data.get('last_name'),
+        })
 
-    return user
+        role = user_repository.get_role_by_name("Customer")
+        if role is None:
+            raise ValueError("Rol de cliente no encontrado")
+        
+        user_repository.assign_role(user, role)
+        db.session.commit()
+        return user
+
+    except Exception as e:
+        db.session.rollback()
+        raise ValueError("Error al crear el usuario")
     
 
 

@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from config import Config
 from extensions import db, migrate
 from app.modules.brands.routes import brands_bp
+from app.modules.auth.routes import auth_bp
 
 
 def create_app(config_class=Config):
@@ -21,6 +22,6 @@ def create_app(config_class=Config):
     CORS(app, resources=app.config["CORS_RESOURCES"])
 
     app.register_blueprint(brands_bp)
-
+    app.register_blueprint(auth_bp)
 
     return app
