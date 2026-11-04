@@ -4,6 +4,7 @@ import app.modules.users.services as user_services
 import jwt
 from datetime import datetime, timedelta
 from extensions import db
+
 def create_user(data):
     email = data.get('email')
 
